@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+                $this->call(\Database\Seeders\RolePermissionSeeder::class);
         // User::factory(10)->create();
 
         User::factory()->create([
@@ -21,9 +22,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'david@example.com',
             'password' => Hash::make('asdf'),
             'email_verified_at' => now(),
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
-            'two_factor_confirmed_at' => null,
         ]);
     }
 }
