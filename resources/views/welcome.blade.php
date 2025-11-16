@@ -21,21 +21,18 @@
         </style>
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full text-sm mb-6 not-has-[nav]:hidden">
+        <header class="w-full text-sm mb-6">
             @if (Route::has('login'))
-                <nav class="flex items-center justify-between">
+                <nav class="flex items-center justify-between w-full">
+                    
                     <div class="flex items-center gap-4">
                         <img 
                             src="{{ asset('storage/Friki.png') }}" 
                             alt="Logo" 
                             class="h-10 w-auto"
                         >
-                    </div>
 
-                    <div class="flex items-center gap-4">
-                        <a href="/" class="text-[#1b1b18] dark:text-[#EDEDEC]">Inicio</a>
-                        <a href="/about" class="text-[#1b1b18] dark:text-[#EDEDEC]">Acerca</a>
-                        <a href="/contact" class="text-[#1b1b18] dark:text-[#EDEDEC]">Contacto</a>
+                        <a href="/" class="text-[#1b1b18] dark:text-[#EDEDEC] px-5">Tienda</a>
                     </div>
 
                     <div class="flex items-center gap-4">
@@ -64,8 +61,15 @@
                         @endauth
                     </div>
                 </nav>
+
+                <nav class="flex flex-col gap-2 text-sm ml-2 mt-5">
+                    <a href="/para ti" class="text-[#1b1b18] dark:text-[#EDEDEC]">Para ti</a>
+                    <a href="/siguiendo" class="text-[#1b1b18] dark:text-[#EDEDEC]">Siguiendo</a>
+                    <a href="/mensajes" class="text-[#1b1b18] dark:text-[#EDEDEC]">Mensajes</a>
+                </nav>
             @endif
         </header>
+
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             
         </div>
