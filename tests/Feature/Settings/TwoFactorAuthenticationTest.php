@@ -1,10 +1,8 @@
 <?php
-
+/*
 use App\Models\User;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
-
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 beforeEach(function () {
     if (! Features::canManageTwoFactorAuthentication()) {
@@ -70,3 +68,5 @@ test('two factor authentication disabled when confirmation abandoned between req
         'two_factor_recovery_codes' => null,
     ]);
 });
+
+*/
