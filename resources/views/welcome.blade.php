@@ -59,20 +59,7 @@
             <main class="content-area">
                 <livewire:create-post />
 
-                @foreach(App\Models\Post::latest()->get() as $post)
-                    <div class="post">
-                        <p>{{ $post->content }}</p>
-                        @if($post->media)
-                            @if(Str::endsWith($post->media, ['mp4','mov','avi']))
-                                <video controls>
-                                    <source src="{{ asset('storage/' . $post->media) }}" type="video/mp4">
-                                </video>
-                            @else
-                                <img src="{{ asset('storage/' . $post->media) }}">
-                            @endif
-                        @endif
-                    </div>
-                @endforeach
+            <livewire:posts-feed />
             </main>
         </div>
 
