@@ -28,7 +28,7 @@
                 <nav class="main-nav">
                     <div class="logo-nav">
                         <img 
-                            src="{{ asset('storage/friki.png') }}" 
+                            src="{{ asset('friki.png') }}" 
                             alt="Logo"
                         >
                         <a href="/">Tienda</a>
