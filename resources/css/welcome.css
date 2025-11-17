@@ -51,6 +51,11 @@ img {
 }
 
 /* ================= Menú lateral fijo ================= */
+.layout-container {
+    display: flex;
+    margin-top: 200px; /* espacio para header */
+}
+
 .nav-lateral {
     position: fixed;
     top: 200px;  /* Debajo del header (ajusta según altura real del header) */
@@ -67,4 +72,26 @@ img {
     color: black;
     text-decoration: none;
     font-size: 20px;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.post, .livewire-post {
+    width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.post img, .post video {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
 }
