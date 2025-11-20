@@ -57,9 +57,8 @@
             </nav>
 
             <main class="content-area">
-                <livewire:create-post />
-
-            <livewire:posts-feed />
+                <livewire:posts />
+                <livewire:posts-feed />
             </main>
         </div>
 
