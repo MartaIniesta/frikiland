@@ -1,97 +1,37 @@
-/* ================= Header fijo arriba ================= */
-.header-fixed {
-    position: fixed;      /* Fijo en la ventana */
-    top: 4px;               
-    left: -4px;
-    width: 100%; 
-    height: 180px;        
-    z-index: 1000;        /* Encima de todo */
-    padding: 10px;        
-    display: flex;
-    align-items: center;  
-    justify-content: space-between;
+body {
+    margin-inline: 20px;
 }
 
-/* Nav principal dentro del header */
+.wrap-main-nav {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin-top: 20px;
+}
+
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 150px; /* espacio entre tienda y login */
+    width: 100%;
+    position: relative;
 }
 
-.main-nav a {
-    color: black;
-    text-decoration: none;
-    text-align: center;
+.nav-logo {
+    margin-right: auto;  
+    font-family: cursive;
+    font-weight: bold;
     font-size: 20px;
 }
 
-.logo-nav, .auth-nav {
+.auth-nav {
+    margin-left: auto; 
     display: flex;
-    align-items: center;
-    gap: 40px;
+    gap: 15px;
 }
 
-.auth-nav a {
-    display: inline-block;           /* equivalente a inline-block */
-    border: 1px solid transparent;   /* borde inicial */
-    border-radius: 8px;   
-    transition: border 0.2s;      
-    padding: 6px 16px; 
-    width: 100px;
-}
-
-.auth-nav a:hover {
-    border-color: #19140035;         
-}
-
-img {
-    max-width: 16%;
-    height: auto;
-}
-
-/* ================= Menú lateral fijo ================= */
 .layout-container {
     display: flex;
-    margin-top: 200px; /* espacio para header */
-}
-
-.nav-lateral {
-    position: fixed;
-    top: 200px;  /* Debajo del header (ajusta según altura real del header) */
-    left: 25px;
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
     gap: 20px;
-    padding: 10px;
-    width: 12%;
-    z-index: 900; /* Debajo del header si es necesario */
 }
 
-.nav-lateral a {
-    color: black;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.content-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-}
-
-.post, .livewire-post {
-    width: 600px;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.post img, .post video {
-    width: 100%;
-    margin-top: 8px;
-    border-radius: 8px;
-}

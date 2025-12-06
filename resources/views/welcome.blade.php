@@ -23,15 +23,11 @@
     </head>
     
     <body>
-        <header class="header-fixed">
+        <div class="wrap-main-nav">
             @if (Route::has('login'))
                 <nav class="main-nav">
-                    <div class="logo-nav">
-                        <img 
-                            src="{{ asset('friki.png') }}" 
-                            alt="Logo"
-                        >
-                        <a href="/">Tienda</a>
+                    <div class="nav-logo">
+                        <p>FRIKILAND</p>
                     </div>
 
                     <div class="auth-nav">
@@ -47,20 +43,29 @@
                     </div>
                 </nav>
             @endif
-        </header>
-
-        <div class="layout-container">
-            <nav class="nav-lateral">
-                <a href="/para ti">Para ti</a>
-                <a href="/siguiendo">Siguiendo</a>
-                <a href="/mensajes">Mensajes</a>
-            </nav>
-
-            <main class="content-area">
-                <livewire:posts />
-                <livewire:posts-feed />
-            </main>
         </div>
 
+        <div class="wrap-select-web">
+
+            <button class="btn-store">
+                <span>Store</span>
+            </button>
+
+            <input type="radio" name="selector" id="social">
+            <label for="social" class="select-web">Red</label>
+
+        </div>
+
+
+        <div class="layout-container">
+            <a href="/para ti">For you</a>
+            <a href="/siguiendo">Following</a>
+            <a href="/mensajes">Chat</a>
+        </div>
+
+        <main class="content-area">
+            <livewire:posts />
+            <livewire:posts-feed />
+        </main>
     </body>
 </html>
