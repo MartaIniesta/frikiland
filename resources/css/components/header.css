@@ -1,0 +1,100 @@
+/*====== BARRA DE NAVEGACION SUPERIOR ======*/
+.info-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-azul-oscuro);
+    height: 34px;
+}
+
+.text-top {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-blanco);
+}
+
+/*==== Shop Nav (Logo, Login) ====*/
+.shop-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-inline: 20px;
+    padding-block: 12px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.title-header {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Icono Hamburguesa */
+.menu i {
+    font-size: 27px;
+    cursor: pointer;
+}
+
+/* Buscador */
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-blanco);
+    border-radius: 8px;
+    padding-inline: 10px;
+    padding-block: 4px;
+    width: 600px;
+    height: 30px;
+}
+
+.search input {
+    background-color: var(--color-blanco);
+    border: none;
+    outline: none;
+    font-size: 14px;
+    width: 558px;
+}
+
+.search input::placeholder {
+    color: var(--color-gris-claro);
+}
+
+.search button {
+    display: flex;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    height: 30px;
+    color: var(--color-gris-claro);
+    align-items: center;
+}
+
+/* ---- BOTÓN HAMBURGUESA ---- */
+.menu {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    transition: 0.2s ease;
+}
+
+.menu:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 10px rgba(77, 141, 255, 0.4);
+}
+
+/* ICONO */
+.icon-log {
+    display: flex !important;
+    font-size: 27px;
+    width: 222.43px;
+    justify-content: flex-end;
+}

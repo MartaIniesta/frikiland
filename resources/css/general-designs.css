@@ -1,0 +1,64 @@
+:root {
+    --color-azul-claro: #d2e2eb;
+    --color-azul-oscuro: #21526d;
+    --color-beige: #fffdf5;
+    --color-blanco: #f1f1f1;
+    --color-gris-claro: #999999;
+    --color-gris-muy-claro: #f6f6f6;
+    --color-gris-oscuro: #575757;
+    --color-negro-claro: #29373f;
+    --color-negro-mas-claro: #26343b;
+    --color-negro: #000000;
+}
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-beige);
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+span {
+    color: #999fa5;
+    font-size: 14px;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--color-beige);
+}
+
+footer {
+    color: var(--color-blanco);
+}
+
+button i:hover,
+a i:hover {
+    color: var(--color-azul-oscuro);
+}
+
+#rotating-message {
+    transition: opacity 0.8s ease, transform 1.5s ease;
+}
+
+.lg\:p-8 {
+    padding: 0 !important;
+}
+
+.error-text {
+    display: block;
+    color: #b91c1c;
+    font-size: 13px;
+    margin-top: 5px;
+}

@@ -1,58 +1,172 @@
 <x-layouts.auth>
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+    <main>
+        <div class="container {{ old('form') === 'register' ? 'active' : '' }}">
 
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
+            {{-- LOGIN --}}
+            <div class="form-box login">
+                <form method="POST" action="{{ route('login.store') }}">
+                    @csrf
+                    <input type="hidden" name="form" value="login">
 
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
-            @csrf
+                    <h1>Login</h1>
 
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                type="email"
-                required
-                autofocus
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
+                    {{-- Email --}}
+                    <div class="input-box">
+                        <input
+                            type="email"
+                            name="email"
+                            value="{{ old('form') === 'login' ? old('email') : '' }}"
+                            placeholder="Email"
+                            required
+                            autofocus
+                        >
+                        <i class="bx bxs-user"></i>
 
-            <!-- Password -->
-            <div class="relative">
-                <flux:input
-                    name="password"
-                    :label="__('Password')"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                    :placeholder="__('Password')"
-                    viewable
-                />
+                        @if (old('form') === 'login')
+                            @error('email')
+                                <small class="error-text">{{ $message }}</small>
+                            @enderror
+                        @endif
+                    </div>
 
-                @if (Route::has('password.request'))
-                    <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </flux:link>
-                @endif
+                    {{-- Password --}}
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Password"
+                            required
+                        >
+                        <i class="bx bxs-lock-alt"></i>
+
+                        <label class="show-password">
+                            <input type="checkbox" onclick="togglePassword()" style="width:12px">
+                            Show Password
+                        </label>
+
+                        @if (old('form') === 'login')
+                            @error('password')
+                                <small class="error-text">{{ $message }}</small>
+                            @enderror
+                        @endif
+                    </div>
+
+                    @if (Route::has('password.request'))
+                        <div class="forgot-link">
+                            <a href="{{ route('password.request') }}">Forgot password?</a>
+                        </div>
+                    @endif
+
+                    <button type="submit" class="btn">Login</button>
+                </form>
             </div>
 
-            <!-- Remember Me -->
-            <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
+            {{-- REGISTER --}}
+            <div class="form-box register">
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+                    <input type="hidden" name="form" value="register">
 
-            <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                    {{ __('Log in') }}
-                </flux:button>
-            </div>
-        </form>
+                    <h1>Register</h1>
 
-        @if (Route::has('register'))
-            <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600">
-                <span>{{ __('Don\'t have an account?') }}</span>
-                <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+                    {{-- Name --}}
+                    <div class="input-box">
+                        <input
+                            type="text"
+                            name="name"
+                            value="{{ old('name') }}"
+                            placeholder="Name"
+                            required
+                        >
+                        <i class="bx bxs-user"></i>
+
+                        @error('name')
+                            <small class="error-text">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Username --}}
+                    <div class="input-box">
+                        <input
+                            type="text"
+                            name="username"
+                            value="{{ old('username') }}"
+                            placeholder="Username"
+                            required
+                        >
+                        <i class="bx bxs-user"></i>
+
+                        @error('username')
+                            <small class="error-text">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Email --}}
+                    <div class="input-box">
+                        <input
+                            type="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Email"
+                            required
+                        >
+                        <i class="bx bxs-envelope"></i>
+
+                        @error('email')
+                            <small class="error-text">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Password --}}
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            required
+                        >
+                        <i class="bx bxs-lock-alt"></i>
+
+                        @error('password')
+                            <small class="error-text">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Confirm Password --}}
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            placeholder="Confirm Password"
+                            required
+                        >
+                        <i class="bx bxs-lock-alt"></i>
+
+                        @error('password_confirmation')
+                            <small class="error-text">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn">Register</button>
+                </form>
             </div>
-        @endif
-    </div>
+
+            {{-- TOGGLE --}}
+            <div class="toggle-box">
+                <div class="toggle-panel toggle-left">
+                    <h1>Hello, Welcome!</h1>
+                    <p>Don't have an account?</p>
+                    <button type="button" class="btn register-btn">Register</button>
+                </div>
+
+                <div class="toggle-panel toggle-right">
+                    <h1>Welcome Back!</h1>
+                    <p>Already have an account?</p>
+                    <button type="button" class="btn login-btn">Login</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
 </x-layouts.auth>

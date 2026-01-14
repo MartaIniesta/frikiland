@@ -3,10 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
+use App\Livewire\Pages\SocialWeb;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('home');
+
+Route::get('/social-web', SocialWeb::class)
+    ->name('social-web');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

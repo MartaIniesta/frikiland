@@ -1,0 +1,237 @@
+/*====== CONTENIDO PRINCIPAL ======*/
+.wrap-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-content {
+    width: 50%;
+}
+
+/* ====== TARJETA POST ====== */
+.posts {
+    padding: 16px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    background-color: #29373f;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+        0 0 0 1px rgba(0, 94, 255, 0.05),
+        0 10px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+}
+
+/* ===== PERFIL ===== */
+.wrap-profile {
+    display: flex;
+    align-items: center;
+    padding-bottom: 12px;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    width: 178px;
+    font-size: 16px;
+    gap: 14px;
+}
+
+.profile-name {
+    display: flex;
+    gap: 5px;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.img-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.right-content {
+    margin-left: auto !important;
+    color: #8b8b8b;
+    font-size: 13px;
+}
+
+/* ===== TEXTO ===== */
+.text-main-content {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e5e5e5;
+    overflow-wrap: break-word;
+}
+
+/* ===== IMAGEN ===== */
+.content-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 14px;
+}
+
+.content-img img {
+    width: 300px;
+    height: 300px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== ICONOS ===== */
+.content-icons {
+    display: flex;
+    padding-top: 14px;
+}
+
+.content-icons i {
+    cursor: pointer;
+    font-size: 20px;
+    color: #9aa0a6;
+    transition: 0.2s ease;
+}
+
+.content-icons i:hover {
+    color: var(--color-azul-claro);
+    text-shadow: 0 0 8px rgba(33, 82, 109, 0.6);
+}
+
+.content-icons-left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.content-icons-right {
+    margin-left: auto;
+}
+
+.content-icons-right i {
+    transform: scaleX(-1);
+}
+
+.transform-i {
+    transform: scaleX(-1);
+}
+
+/* ===== FOOTER ===== */
+.main-footer {
+    width: 100%;
+    padding: 14px 0;
+    text-align: center;
+    background: transparent;
+    font-size: 14px;
+    color: #777;
+    margin-top: auto;
+}
+
+/* ====== BLOQUE CREAR POST ====== */
+.create-post-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    margin: 2px 0 18px 0;
+    border-radius: 14px;
+    background-color: #29373f;
+    border: 1px solid rgba(33, 82, 109, 0.06);
+    box-shadow: 0 0 0 1px rgba(33, 82, 109, 0.08), 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* TOP */
+.create-post-top {
+    display: flex;
+    gap: 15px;
+}
+
+.create-textarea {
+    min-height: 80px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+}
+
+.create-textarea a {
+    color: #1a73e8;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.create-textarea:empty::before {
+    content: attr(placeholder);
+    color: #999;
+    pointer-events: none;
+}
+
+.create-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(33, 82, 109, 0.15);
+}
+
+/* TEXTAREA */
+.create-textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    resize: none;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    height: 70px;
+    padding-top: 8px;
+}
+
+.create-textarea::placeholder {
+    color: #9aa0a6;
+}
+
+/* ACCIONES */
+.create-actions {
+    display: flex;
+    align-items: center;
+}
+
+.left-actions {
+    display: flex;
+    gap: 14px;
+}
+
+.left-actions i {
+    font-size: 22px;
+    cursor: pointer;
+    color: #8b8b8b;
+    transition: 0.2s ease;
+}
+
+.left-actions i:hover {
+    color: var(--color-azul-claro);
+    text-shadow: 0 0 8px rgba(33, 82, 109, 0.6);
+}
+
+/* BOTÓN */
+.btn-post {
+    margin-left: auto;
+    background: var(--color-azul-oscuro);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--color-blanco);
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(33, 82, 109, 0.5);
+}
+
+.btn-post:hover {
+    box-shadow: 0 0 25px rgba(33, 82, 109, 0.8);
+    transform: translateY(-1px);
+}
