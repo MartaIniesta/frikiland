@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Livewire\Pages\SocialWeb;
+use App\Livewire\PostShow;
 
 Route::get('/', function () {
     return view('home');
@@ -21,6 +22,9 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/posts/{post}', PostShow::class)
+        ->name('posts.show');
+
 
     Route::redirect('settings', 'settings/profile');
 

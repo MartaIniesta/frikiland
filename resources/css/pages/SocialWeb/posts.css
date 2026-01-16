@@ -235,3 +235,8 @@
     box-shadow: 0 0 25px rgba(33, 82, 109, 0.8);
     transform: translateY(-1px);
 }
+
+
+.comment-link {
+    height: 25px;
+}

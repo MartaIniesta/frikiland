@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'username' => 'david',
             'email' => 'david@example.com',
             'password' => Hash::make('asdf'),
+            'avatar' => 'images/avatars/avatar1.jpg',
         ]);
 
         User::factory()->create([
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
             'username' => 'marta',
             'email' => 'marta@gmail.com',
             'password' => Hash::make('1234'),
+            'avatar' => 'images/avatars/avatar1.jpg',
         ]);
 
         User::factory()->create([
@@ -35,6 +37,7 @@ class UserSeeder extends Seeder
             'username' => 'otro',
             'email' => 'otro@gmail.com',
             'password' => Hash::make('asdf'),
+            'avatar' => 'images/avatars/avatar1.jpg',
         ]);
     }
 }
