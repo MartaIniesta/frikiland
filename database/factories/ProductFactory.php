@@ -22,10 +22,11 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 5, 500),
             'stock' => $this->faker->numberBetween(0, 100),
             'active' => $this->faker->boolean(90),
-            'images' => json_encode([
-                'products/post.jpg', // puedes añadir rutas locales de prueba
+            // PASA EL ARRAY DIRECTO, SIN json_encode
+            'images' => [
+                'products/post.jpg',
                 $this->faker->imageUrl(640, 480, 'product', true),
-            ]),
+            ],
         ];
     }
 }

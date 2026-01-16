@@ -10,34 +10,28 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
+        'sku',
         'name',
         'slug',
         'description',
         'price',
         'stock',
-        'is_active',
+        'active',
+        'images', // Aquí se guardará el array de rutas
     ];
 
-    // Relaciones
-    public function categories()
-    {
+    protected $casts = [
+        'images' => 'array',   // Crucial para evitar el error del foreach
+        'active' => 'boolean',
+        'price'  => 'decimal:2'
+    ];
+
+    // Relaciones (mantengo las que ya tenías)
+    public function categories() {
         return $this->belongsToMany(ProductCategory::class, 'category_product');
     }
 
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class);
-    }
-
     public function carts() {
-        return $this->belongsToMany(Cart::class, 'cart_items')
-                    ->withPivot('quantity', 'price_at_purchase')
-                    ->withTimestamps();
-    }
-
-    public function orders() {
-        return $this->belongsToMany(Order::class, 'order_items')
-                    ->withPivot('quantity', 'price')
-                    ->withTimestamps();
+        return $this->belongsToMany(Cart::class, 'cart_items')->withPivot('quantity', 'price_at_purchase')->withTimestamps();
     }
 }

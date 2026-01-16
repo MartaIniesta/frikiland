@@ -31,7 +31,7 @@
         </div>
 
         <div class="text-home shop">
-            <a href="#">
+            <a href="{{ route('shop-web') }}">
                 <h2>Shop</h2>
                 <p>Explora, elige y compra con confianza. Aquí, cada compra conecta con lo que te gusta y con tu fandom.
                 </p>

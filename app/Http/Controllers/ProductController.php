@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index()
-    {
-        $products = Product::with('categories', 'images')->get();
-        return response()->json($products);
-    }
+{
+    $products = Product::with('images')
+        ->where('active', true)
+        ->latest()
+        ->paginate(12);
+
+    return view('products.index', compact('products'));
+}
 
     public function show(Product $product)
     {

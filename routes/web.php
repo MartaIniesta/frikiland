@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Livewire\Pages\SocialWeb;
+use App\Livewire\Pages\ShopWeb;
 use App\Livewire\PostShow;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('/shop-web', ShopWeb::class)
+    ->name('shop-web');
 
 Route::get('/social-web', SocialWeb::class)
     ->name('social-web');
