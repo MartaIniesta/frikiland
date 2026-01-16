@@ -1,24 +1,38 @@
 @props([
-    'label',
+    'label' => null,
+    'model' => null,
     'type' => 'text',
-    'model',
     'required' => false,
-    'placeholder' => null
+    'placeholder' => null,
 ])
 
+@php
+    $wireModel = $attributes->wire('model')->value();
+    $finalModel = $wireModel ?? $model;
+@endphp
+
 <div class="input-box">
-    <label for="{{ $model }}">{{ $label }}</label>
+    @if($label)
+        <label for="{{ $finalModel }}">
+            {{ $label }}
+        </label>
+    @endif
 
     <input
-        id="{{ $model }}"
-        name="{{ $model }}"
+        id="{{ $finalModel }}"
+        name="{{ $finalModel }}"
         type="{{ $type }}"
-        wire:model="{{ $model }}"
+        @if($wireModel)
+            wire:model.defer="{{ $wireModel }}"
+        @elseif($model)
+            wire:model.defer="{{ $model }}"
+        @endif
+        {{ $attributes->except('wire:model') }}
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($required) required @endif
     >
 
-    @error($model)
+    @error($finalModel)
         <small class="error-text">{{ $message }}</small>
     @enderror
 </div>

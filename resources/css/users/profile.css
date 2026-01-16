@@ -1,6 +1,4 @@
-/************************************
- * PERFIL SUPERIOR (INFO USUARIO)
- ************************************/
+/* PERFIL SUPERIOR (INFO USUARIO) */
 .wrap-profile-users {
     display: flex;
     justify-content: center;
@@ -45,8 +43,8 @@
     border-bottom: 2px solid var(--color-gris-muy-claro);
 }
 
-/* BUTTON DELETE PROFILE */
-.delete-profile {
+/* BOTON DELETE PROFILE */
+.profile-users-actions {
     margin-left: auto;
     display: flex;
 }

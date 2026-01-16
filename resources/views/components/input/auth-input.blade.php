@@ -10,15 +10,31 @@
 ])
 
 <div class="input-box">
-    <input type="{{ $type }}" name="{{ $name }}" value="{{ $value }}"
-        placeholder="{{ $placeholder }}" @if ($required) required @endif
-        @if ($autofocus) autofocus @endif>
+    <div class="input-wrapper">
+        @if ($icon)
+            <i class="bx {{ $icon }}"></i>
+        @endif
 
-    @if ($icon)
-        <i class="bx {{ $icon }}"></i>
-    @endif
+        <input
+            type="{{ $type }}"
+            name="{{ $name }}"
+            value="{{ $value }}"
+            placeholder="{{ $placeholder }}"
+            @if ($attributes->has('wire:model'))
+                wire:model.defer="{{ $attributes->get('wire:model') }}"
+            @endif
+            @if ($required) required @endif
+            @if ($autofocus) autofocus @endif
+        >
 
-    {{-- Error --}}
+        @if ($type === 'password')
+            <button type="button" class="show-password" onclick="togglePassword(this)">
+                <i class="bx bx-hide"></i>
+            </button>
+        @endif
+    </div>
+
+    {{-- Errores --}}
     @if ($form)
         @if (old('form') === $form)
             @error($name)

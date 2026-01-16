@@ -1,0 +1,21 @@
+.form-edit-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap-form-edit-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.content-left {
+    width: 570px;
+}
+
+.content-rigth {
+    width: 570px;
+    padding-inline: 20px;
+}

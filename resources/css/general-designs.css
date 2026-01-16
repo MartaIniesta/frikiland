@@ -55,10 +55,3 @@ a i:hover {
 .lg\:p-8 {
     padding: 0 !important;
 }
-
-.error-text {
-    display: block;
-    color: #b91c1c;
-    font-size: 13px;
-    margin-top: 5px;
-}

@@ -13,16 +13,11 @@
                     <x-input.auth-input type="email" name="email" placeholder="Email" icon="bxs-user" :value="old('form') === 'login' ? old('email') : ''"
                         required autofocus form="login" />
 
-                    <x-input.auth-input type="password" name="password" placeholder="Password" icon="bxs-lock-alt" required
+                    <x-input.auth-input type="password" name="password" placeholder="Password" required toggleable
                         form="login" />
 
-                    <label class="show-password">
-                        <input type="checkbox" onclick="togglePassword()" style="width:12px">
-                        Show Password
-                    </label>
-
                     @if (Route::has('password.request'))
-                        <div class="forgot-link" style="margin-top:5px;">
+                        <div class="forgot-link">
                             <a href="{{ route('password.request') }}">Forgot password?</a>
                         </div>
                     @endif
@@ -41,15 +36,16 @@
 
                     <x-input.auth-input name="name" placeholder="Name" icon="bxs-user" :value="old('name')" required />
 
-                    <x-input.auth-input name="username" placeholder="Username" icon="bxs-user" :value="old('username')" required />
+                    <x-input.auth-input name="username" placeholder="Username" icon="bxs-user" :value="old('username')"
+                        required />
 
                     <x-input.auth-input type="email" name="email" placeholder="Email" icon="bxs-envelope"
                         :value="old('email')" required />
 
-                    <x-input.auth-input type="password" name="password" placeholder="Password" icon="bxs-lock-alt" required />
+                    <x-input.auth-input type="password" name="password" placeholder="Password" required toggleable />
 
                     <x-input.auth-input type="password" name="password_confirmation" placeholder="Confirm Password"
-                        icon="bxs-lock-alt" required />
+                        required toggleable />
 
                     <button type="submit" class="btn">Register</button>
                 </form>

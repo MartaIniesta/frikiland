@@ -37,43 +37,42 @@ new class extends Component {
 }; ?>
 
 <section class="w-full">
-    @include('partials.settings-heading')
+    <x-header />
 
-    <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
-        <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
-            <flux:input
-                wire:model="current_password"
-                :label="__('Current password')"
-                type="password"
-                required
-                autocomplete="current-password"
-            />
-            <flux:input
-                wire:model="password"
-                :label="__('New password')"
-                type="password"
-                required
-                autocomplete="new-password"
-            />
-            <flux:input
-                wire:model="password_confirmation"
-                :label="__('Confirm Password')"
-                type="password"
-                required
-                autocomplete="new-password"
-            />
+    <x-banner-categories>
+        <a class="cat" href="{{ route('profile.edit') }}" wire:navigate>
+            {{ __('EDIT PROFILE') }}
+        </a>
 
-            <div class="flex items-center gap-4">
-                <div class="flex items-center justify-end">
-                    <flux:button variant="primary" type="submit" class="w-full" data-test="update-password-button">
-                        {{ __('Save') }}
-                    </flux:button>
-                </div>
+        <a class="cat active" href="{{ route('user-password.edit') }}" wire:navigate>
+            {{ __('PASSWORD') }}
+        </a>
+    </x-banner-categories>
 
-                <x-action-message class="me-3" on="password-updated">
-                    {{ __('Saved.') }}
+    <div class="title-password">
+        <h2>~ {{ __('Change your password') }} ~</h2>
+    </div>
+
+    <form method="POST" wire:submit="updatePassword" class="form-edit-password">
+        <div class="content-form-update-password">
+            <x-input.auth-input type="password" name="current_password" placeholder="{{ __('Current password') }}"
+                wire:model="current_password" required />
+
+            <x-input.auth-input type="password" name="password" placeholder="{{ __('New password') }}"
+                wire:model="password" required />
+
+            <x-input.auth-input type="password" name="password_confirmation" placeholder="{{ __('Confirm Password') }}"
+                wire:model="password_confirmation" required />
+
+            <div class="input-box">
+                <button type="submit" class="btn" data-test="update-password-button">
+                    {{ __('Save') }}
+                </button>
+
+                <x-action-message on="password-updated" class="password-updated">
+                    {{ __('Password saved successfully') }}
                 </x-action-message>
             </div>
-        </form>
-    </x-settings.layout>
+        </div>
+    </form>
 </section>

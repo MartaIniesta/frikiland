@@ -7,6 +7,8 @@
 }
 
 @layer components {
+    @import './components/input.css';
+
     /* HEADER */
     @import './components/header/header.css';
     @import './components/header/dropdown-user.css';
@@ -21,8 +23,10 @@
     @import './login.css';
 
     /* USERS */
-    @import './users/edit-profile.css';
     @import './users/profile.css';
+    @import './users/avatar-picker.css';
+    @import './users/setting-profile.css';
+    @import './users/change-password.css';
 
     /* PAGES */
     @import './pages/home.css';

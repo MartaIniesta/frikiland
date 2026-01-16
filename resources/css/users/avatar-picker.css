@@ -1,44 +1,6 @@
-/* UTILIDADES GENERALES */
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* FORMULARIO EDIT PROFILE */
-.form-edit-profile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.wrap-form-edit-profile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-}
-
-.content-left {
-    width: 570px;
-}
-
-.content-rigth {
-    width: 500px;
-}
-
-.bio {
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* AVATAR PICKER – CONTENEDOR */
 .avatar-picker {
     height: 524px;
 }
-
 
 /* AVATARES (SELECTOR) */
 .wrap-avatar {
@@ -76,6 +38,12 @@
     object-fit: cover;
 }
 
+/* MENSAJE DE GUARDADO CORRECTAMENTE */
+.success-message {
+    font-size: 14px;
+    font-weight: 500;
+}
+
 
 /* DRAG & DROP UPLOAD */
 .drag-drop {
@@ -91,13 +59,11 @@
     transition: all 0.2s ease;
 }
 
-.drag-drop:hover {
-    background-color: var(--color-azul-claro);
+.drag-drop span {
+    font-weight: bold;
+    color: var(--color-gris-oscuro);
 }
 
-
-/* MENSAJES / FEEDBACK */
-.success-message {
-    font-size: 14px;
-    font-weight: 500;
+.drag-drop:hover {
+    background-color: var(--color-azul-claro);
 }

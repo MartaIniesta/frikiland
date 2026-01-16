@@ -73,7 +73,7 @@ new class extends Component {
 <section class="w-full">
     <x-header />
 
-    <x-banner-categories class="banner-categories-top">
+    <x-banner-categories>
         <a class="cat active" href="{{ route('profile.edit') }}" wire:navigate>
             {{ __('EDIT PROFILE') }}
         </a>
@@ -83,31 +83,13 @@ new class extends Component {
         </a>
     </x-banner-categories>
 
-    <div class="wrap-profile-users">
-        <div>
-            <div class="profile-users">
-                <img src="{{ asset($this->avatar) }}" alt="Avatar">
+    <x-profile.user-card :avatar="$this->avatar" :name="$this->name" :username="$this->username" :bio="$this->bio" followers="200"
+        posts="x">
+        <x-slot:actions>
+            <livewire:settings.delete-user-form />
+        </x-slot:actions>
+    </x-profile.user-card>
 
-                <div class="wrap-profile-content">
-                    <p>{{ $this->name }}</p>
-
-                    <div class="profile-users-sub">
-                        <span style="color: var(--color-gris-oscuro);">{{ $this->username }}</span>
-                        <span>-</span>
-                        <span>200 seguidores</span>
-                        <span>-</span>
-                        <span>x posts</span>
-                    </div>
-                </div>
-
-                <div class="delete-profile">
-                    <livewire:settings.delete-user-form />
-                </div>
-            </div>
-
-            <p class="biography ">{{ $this->bio }}</p>
-        </div>
-    </div>
 
     <form wire:submit="updateProfileInformation" class="form-edit-profile">
         <div class="wrap-form-edit-profile">
@@ -141,15 +123,10 @@ new class extends Component {
                     @endif
                 @endif
 
-                {{-- Actions --}}
                 <div class="input-box">
                     <button type="submit" class="btn">
                         Save Changes
                     </button>
-
-                    <x-action-message on="profile-updated">
-                        Saved.
-                    </x-action-message>
                 </div>
             </div>
         </div>

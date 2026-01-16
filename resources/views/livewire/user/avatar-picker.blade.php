@@ -1,8 +1,5 @@
 <div class="avatar-picker">
-
-    {{-- Avatares predefinidos --}}
     <div class="wrap-avatar" style="display:flex;gap:15px;">
-        {{-- Preview del avatar seleccionado --}}
         @if ($selectedAvatar)
             <div class="preview-avatar">
                 <img src="{{ in_array($selectedAvatar, $avatars) ? asset($selectedAvatar) : asset('storage/' . $selectedAvatar) }}"
@@ -18,7 +15,6 @@
         @endforeach
     </div>
 
-    {{-- Drag & Drop / Upload --}}
     <div class="drag-drop" x-data="{ isDragging: false }" @click="$refs.fileInput.click()" @dragover.prevent="isDragging = true"
         @dragleave.prevent="isDragging = false"
         @drop.prevent="
@@ -27,7 +23,7 @@
         $refs.fileInput.dispatchEvent(new Event('change'));
     "
         :style="isDragging ? 'border-color:#22c55e;background:#ecfdf5;' : ''">
-        <span style="font-weight:600;color:#666;">
+        <span>
             Subir imagen
         </span>
 
@@ -38,21 +34,16 @@
         <p style="color:red;margin-top:5px;">{{ $message }}</p>
     @enderror
 
-
-
-    {{-- Guardar --}}
     <div class="input-box">
         <button class="btn" wire:click="saveAvatar" @disabled($selectedAvatar === $user->avatar)>
             Save Avatar
         </button>
     </div>
 
-    {{-- Mensaje --}}
     @if (session('success'))
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 2000)" x-show="show" x-transition class="success-message"
             style="margin-top:10px;color:#22c55e;">
             {{ session('success') }}
         </div>
     @endif
-
 </div>
