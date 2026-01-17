@@ -13,6 +13,8 @@ class Products extends Component
     use WithFileUploads;
     use WithPagination;
 
+    public $view = 'index'; // Valores: index, show, create, edit
+
     public $name, $sku, $description, $price = 0, $stock = 0, $active = true;
     public $images = []; // Para las nuevas imágenes del formulario
 
@@ -30,12 +32,18 @@ class Products extends Component
     public function showProduct($id)
     {
         $this->selected_product = Product::findOrFail($id);
+        $this->view = 'show';
     }
 
-    // Método para volver al listado
-    public function closeDetails()
+    public function createProduct()
+    {
+        $this->view = 'create';
+    }
+
+    public function backToIndex()
     {
         $this->selected_product = null;
+        $this->view = 'index';
     }
 
     public function addProduct()
