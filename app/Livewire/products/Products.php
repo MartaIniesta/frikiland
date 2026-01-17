@@ -6,13 +6,16 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
 
 class Products extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
     public $name, $sku, $description, $price = 0, $stock = 0, $active = true;
     public $images = []; // Para las nuevas imágenes del formulario
+
 
     protected $rules = [
         'name' => 'required|min:3',
@@ -49,13 +52,8 @@ class Products extends Component
 
     public function render()
     {
-        $products = Product::latest()->get();
-
-        // DESCOMENTA LA LÍNEA DE ABAJO PARA VER LOS DATOS EN PANTALLA
-        logger("PRODUCTOS CARGADOS:", $products->toArray());
-
         return view('livewire.products.products', [
-            'products' => $products
+            'products' => Product::latest()->paginate(8)
         ]);
     }
 }

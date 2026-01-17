@@ -79,75 +79,68 @@
         {{-- ==========================================================
              LISTADO DE PRODUCTOS (Usa la variable $product)
              ========================================================== --}}
-        <h3 style="margin: 30px 0 15px 0; font-weight: bold; color: #444;">Catálogo de Productos</h3>
+        {{-- CONTENEDOR EN GRID --}}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+            @foreach ($products as $product)
+                <article style="background: white; border-radius: 12px; border: 1px solid #eee; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);" 
+                         onmouseover="this.style.transform='scale(1.02)'" 
+                         onmouseout="this.style.transform='scale(1)'">
+                    
+                    {{-- Imagen Principal --}}
+                    {{-- Dentro de tu @foreach ($products as $product) --}}
+                    <div style="width: 100%; height: 150px; background: #f8f9fa; position: relative; overflow: hidden;">
+                        @php
+                            // Obtenemos la primera ruta del array. Si no existe, queda como null.
+                            $firstImagePath = $product->images[0] ?? null;
 
-        @forelse ($products as $product)
-            <article class="posts" style="margin-bottom: 20px; border: 1px solid #f0f0f0;">
-                <div class="wrap-profile">
-                    {{-- Icono representativo --}}
-                    <div class="img-profile" style="background: #eef2f7; display: flex; align-items: center; justify-content: center; color: #5dade2;">
-                        <i class="bx bx-package" style="font-size: 1.5rem;"></i>
-                    </div>
+                            // Construimos la URL: 
+                            // 1. Si no hay imagen, usamos un placeholder.
+                            // 2. Si la ruta empieza con http, es de Faker.
+                            // 3. Si no, es una ruta local de storage.
+                            if (!$firstImagePath) {
+                                $src = 'https://via.placeholder.com/300x300?text=Sin+Imagen';
+                            } else {
+                                $src = str_starts_with($firstImagePath, 'http') 
+                                    ? $firstImagePath 
+                                    : asset('storage/' . $firstImagePath);
+                            }
+                        @endphp
 
-                    <div class="profile-name">
-                        <p style="font-weight: 600; font-size: 1.1rem; margin: 0;">{{ $product->name }}</p>
-                        <span style="font-size: 0.85rem; color: #888;">SKU: {{ $product->sku ?? 'Sin código' }}</span>
-                    </div>
-
-                    <div class="right-content">
-                        <span style="font-size: 1.2rem; font-weight: bold; color: #27ae60;">
+                        <img src="{{ $src }}" 
+                            alt="{{ $product->name }}" 
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                        
+                        {{-- Etiqueta de precio sobre la imagen --}}
+                        <span style="position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.9); padding: 2px 8px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; color: #27ae60; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                             ${{ number_format($product->price, 2, ',', '.') }}
                         </span>
                     </div>
-                </div>
 
-                <p class="text-main-content" style="margin: 15px 0; color: #555; line-height: 1.5;">
-                    {{ $product->description }}
-                </p>
-
-                {{-- GALERÍA DE IMÁGENES GUARDADAS --}}
-                @if($product->images && is_array($product->images))
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin: 15px 0;">
-                        @foreach($product->images as $path)
-                            @php
-                                // Detectar si es URL externa (faker) o local (storage)
-                                $src = str_starts_with($path, 'http') ? $path : asset('storage/' . $path);
-                            @endphp
-                            <img src="{{ $src }}" 
-                                 alt="Imagen de {{ $product->name }}" 
-                                 style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #f1f1f1;">
-                        @endforeach
-                    </div>
-                @endif
-
-                {{-- BARRA DE INFORMACIÓN Y ACCIONES --}}
-                <div class="content-icons" style="border-top: 1px solid #f5f5f5; padding-top: 12px;">
-                    <div class="content-icons-left" style="display: flex; gap: 20px; color: #666; font-size: 0.9rem;">
-                        <span title="Stock disponible">
-                            <i class="bx bx-store-alt"></i> Stock: <strong>{{ $product->stock }}</strong>
-                        </span>
-
-                        <span style="color: {{ $product->active ? '#27ae60' : '#e74c3c' }}; font-weight: 500;">
-                            <i class="bx bx-circle"></i> {{ $product->active ? 'Publicado' : 'Borrador' }}
-                        </span>
+                    {{-- Info resumida --}}
+                    <div style="padding: 12px; display: flex; flex-direction: column; gap: 5px; flex-grow: 1;">
+                        <h4 style="margin: 0; font-size: 0.95rem; color: #333; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ $product->name }}
+                        </h4>
                     </div>
 
-                    <div class="content-icons-right">
-                        <button style="background: none; border: none; padding: 5px; cursor: pointer; color: #3498db;" title="Editar">
-                            <i class="bx bx-edit-alt" style="font-size: 1.3rem;"></i>
-                        </button>
-                        <button style="background: none; border: none; padding: 5px; cursor: pointer; color: #e74c3c;" title="Eliminar">
-                            <i class="bx bx-trash" style="font-size: 1.3rem;"></i>
-                        </button>
-                    </div>
-                </div>
-            </article>
-        @empty
-            <div style="text-align: center; padding: 50px; color: #999; background: #f9f9f9; border-radius: 15px;">
-                <i class="bx bx-search-alt" style="font-size: 3rem; margin-bottom: 10px; display: block;"></i>
-                <p>No hay productos registrados en el catálogo.</p>
+                    {{-- Botón para entrar --}}
+                    <a href="#" style="display: block; width: 100%; padding: 10px; text-align: center; background: #f0f2f5; color: #3498db; text-decoration: none; font-size: 0.85rem; font-weight: bold; border-top: 1px solid #eee;">
+                        Ver detalles
+                    </a>
+                </article>
+            @endforeach
+        </div>
+
+        {{-- LINKS DE PAGINACIÓN --}}
+        <div style="margin-top: 30px;">
+            {{ $products->links() }}
+        </div>
+
+        @if($products->isEmpty())
+            <div style="text-align: center; padding: 50px; color: #999;">
+                <p>No hay productos disponibles.</p>
             </div>
-        @endforelse
+        @endif
 
     </section>
 </main>

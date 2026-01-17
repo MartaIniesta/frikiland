@@ -25,7 +25,6 @@ class ProductFactory extends Factory
             // PASA EL ARRAY DIRECTO, SIN json_encode
             'images' => [
                 'products/post.jpg',
-                $this->faker->imageUrl(640, 480, 'product', true),
             ],
         ];
     }
