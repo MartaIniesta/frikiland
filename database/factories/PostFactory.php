@@ -24,9 +24,6 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(), // Crea un usuario asociado automáticamente
             'content' => $this->faker->paragraph(2),
-            'media' => [
-                'post.jpg'
-            ],
             'likes_count' => $this->faker->numberBetween(0, 100),
             'comments_count' => $this->faker->numberBetween(0, 50),
             'shares_count' => $this->faker->numberBetween(0, 20),

@@ -25,7 +25,6 @@
 
     <!-- POSTS -->
     <div class="content-web">
-        <livewire:posts />
-        <livewire:posts-feed />
+        <livewire:posts.posts />
     </div>
 </div>

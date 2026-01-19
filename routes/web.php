@@ -5,7 +5,7 @@ use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Livewire\Pages\SocialWeb;
 use App\Livewire\Pages\ShopWeb;
-use App\Livewire\PostShow;
+use App\Livewire\Posts\PostShow;
 
 Route::get('/', function () {
     return view('home');

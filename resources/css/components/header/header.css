@@ -105,3 +105,13 @@
     height: 45px;
     border-radius: 100%;
 }
+
+
+/* ICONO VOLVER ATRAS */
+.menu a {
+    display: flex;
+}
+
+.return:hover {
+    color: black;
+}
