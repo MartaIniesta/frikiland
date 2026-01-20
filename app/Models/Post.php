@@ -16,7 +16,8 @@ class Post extends Model
 
     protected $fillable = ['user_id', 'parent_id', 'content', 'media', 'likes_count', 'comments_count', 'shares_count',];
 
-    public function user(): BelongsTo {
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -28,5 +29,11 @@ class Post extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(Post::class, 'parent_id');
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites')
+            ->withTimestamps();
     }
 }

@@ -8,7 +8,7 @@
 }
 
 .main-content {
-    width: 50%;
+    width: 45%;
 }
 
 /* ====== TARJETA POST ====== */
@@ -54,6 +54,7 @@
 }
 
 .right-content {
+    display: flex;
     margin-left: auto !important;
     color: #8b8b8b;
     font-size: 13px;
@@ -240,4 +241,37 @@
 
 .comment-link {
     height: 25px;
+}
+
+
+/* PUNTOS EN VERTICAL + MODAL */
+.dots-vertical i {
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.dots-vertical i:hover {
+    color: var(--color-azul-claro);
+    text-shadow: 0 0 8px rgba(33, 82, 109, 0.6);
+}
+
+.modal-post {
+    position: absolute;
+    right: 0;
+    background-color: var(--color-blanco);
+    border-radius: 8px;
+}
+
+.modal-post button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 20px 8px 10px;
+    color: var(--color-gris-oscuro);
+    cursor: pointer;
+}
+
+.btn-delete-post {
+    color: #b91c1c !important;
 }

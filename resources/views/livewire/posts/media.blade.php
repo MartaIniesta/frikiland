@@ -52,7 +52,7 @@
                 {{-- Eliminar --}}
                 @if (isset($removable) && $removable)
                     <button wire:click="{{ $removeMethod ?? 'removeTempMedia' }}({{ $index }})"
-                        class="absolute top-1 right-1 bg-black/70 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center z-10">
+                        class="absolute top-1 right-1 bg-black/70 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center z-10 cursor-pointer">
                         ×
                     </button>
                 @endif

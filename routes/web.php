@@ -29,7 +29,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/{post}', PostShow::class)
         ->name('posts.show');
 
-
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')

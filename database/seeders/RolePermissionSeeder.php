@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,34 +13,64 @@ class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1️⃣ Crear Roles
-        $roles = ['user', 'seller', 'admin'];
-        foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role]);
-        }
+        // Limpiar caché de permisos
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        // 2️⃣ Crear Permisos
+        // Definición de permisos (por dominio)
         $permissions = [
-            'crear_post',
-            'editar_post',
-            'borrar_post',
-            'crear_producto',
-            'editar_producto',
-            'ver_ventas',
-            'gestionar_usuarios',
-            'asignar_roles',
+            // Posts
+            'post.create',
+            'post.update',
+            'post.delete',
+
+            'favorite.post',
+            'shared.post',
+
+            // Productos
+            'product.create',
+            'product.update',
+            'product.delete',
+
+            // Ventas
+            'sales.view',
+
+            // Usuarios / roles
+            'users.manage',
+            'roles.assign',
         ];
-        foreach ($permissions as $perm) {
-            Permission::firstOrCreate(['name' => $perm]);
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
-        // 3️⃣ Asignar permisos a roles
-        Role::findByName('user')->givePermissionTo(['crear_post', 'editar_post']);
-        Role::findByName('seller')->givePermissionTo(['crear_post','editar_post','crear_producto','editar_producto','ver_ventas']);
-        Role::findByName('admin')->givePermissionTo(Permission::all());
+        // Definición de roles y sus permisos
+        $roles = [
+            'user' => [
+                'post.create',
+                'post.update',
+                'post.delete',
+                'favorite.post',
+                'shared.post',
+            ],
 
-        // 4️⃣ Crear un usuario de prueba
-        $user = User::factory()->create([
+            'seller' => [
+                'post.create',
+                'post.update',
+                'product.create',
+                'product.update',
+                'sales.view',
+            ],
+
+            'admin' => Permission::all()->pluck('name')->toArray(),
+        ];
+
+        foreach ($roles as $roleName => $rolePermissions) {
+            $role = Role::firstOrCreate(['name' => $roleName]);
+            $role->syncPermissions($rolePermissions);
+        }
+
+        // Usuario de prueba
+        $user = User::firstOrCreate([
             'name' => 'David',
             'username' => 'davidfriki',
             'email' => 'redsocial@example.com',
@@ -49,6 +80,6 @@ class RolePermissionSeeder extends Seeder
             'bio' => 'Usuario de prueba',
         ]);
 
-        $user->assignRole('user');
+        $user->syncRoles(['user']);
     }
 }
