@@ -65,4 +65,39 @@ class User extends Authenticatable
             ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    // Posts del usuario
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    // Posts favoritos
+    public function favoritePosts()
+    {
+        return $this->belongsToMany(Post::class, 'favorites')
+            ->withTimestamps();
+    }
+
+    // Usuarios que sigo
+    public function following()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'followers',
+            'follower_id',
+            'followed_id'
+        )->withTimestamps();
+    }
+
+    // Usuarios que me siguen
+    public function followers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'followers',
+            'followed_id',
+            'follower_id'
+        )->withTimestamps();
+    }
 }
