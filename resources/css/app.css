@@ -27,11 +27,14 @@
     @import './users/profile-user.css';
     @import './users/avatar-picker.css';
     @import './users/setting-profile.css';
-    @import './users/change-password.css';
 
     /* PAGES */
     @import './pages/home.css';
     @import './pages/SocialWeb/posts.css';
+
+    /* SETTINGS */
+    @import './settings/change-password.css';
+    @import './settings/content-privacy.css';
 }
 
 @source '../views';

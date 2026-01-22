@@ -81,6 +81,10 @@ new class extends Component {
         <a class="cat" href="{{ route('user-password.edit') }}" wire:navigate>
             {{ __('PASSWORD') }}
         </a>
+
+        <a class="cat" href="{{ route('profile.configuration') }}" wire:navigate>
+            {{ __('CONFIGURATION') }}
+        </a>
     </x-banner-categories>
 
     <x-profile.user-card :avatar="$this->avatar" :name="$this->name" :username="$this->username" :bio="$this->bio" followers="200"

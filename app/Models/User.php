@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 // use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\ContentPrivacy;
 
 class User extends Authenticatable
 {
@@ -99,5 +100,48 @@ class User extends Authenticatable
             'followed_id',
             'follower_id'
         )->withTimestamps();
+    }
+
+    /**
+     * Privacidad de contenidos (favorites, shared, etc.)
+     */
+    public function contentPrivacies()
+    {
+        return $this->hasMany(ContentPrivacy::class);
+    }
+
+    /**
+     * Obtener visibilidad de un tipo de contenido
+     */
+    public function privacyFor(string $type): string
+    {
+        return $this->contentPrivacies
+            ->where('type', $type)
+            ->first()
+            ?->visibility ?? 'public';
+    }
+
+    public function canViewFavorites(?User $viewer = null): bool
+    {
+        $visibility = $this->privacyFor('favorites');
+
+        if ($visibility === 'public') {
+            return true;
+        }
+
+        if (! $viewer) {
+            return false;
+        }
+
+        if ($visibility === 'private') {
+            return $viewer->id === $this->id;
+        }
+
+        if ($visibility === 'followers') {
+            return $viewer->id === $this->id
+                || $this->followers()->where('follower_id', $viewer->id)->exists();
+        }
+
+        return false;
     }
 }

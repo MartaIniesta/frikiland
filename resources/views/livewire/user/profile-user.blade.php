@@ -48,16 +48,16 @@
                 <p>{{ $user->bio }}</p>
             </div>
 
-            <div class="wrap-profile-cat">
-                <a href="#" class="cat active">
+            <div class="wrap-profile-cat cursor-pointer">
+                <a wire:click.prevent="setTab('posts')" class="cat {{ $tab === 'posts' ? 'active' : '' }}">
                     Posts
                 </a>
 
-                <a href="#" class="cat">
+                <a class="cat">
                     Compartidos
                 </a>
 
-                <a href="#" class="cat">
+                <a wire:click.prevent="setTab('favorites')" class="cat {{ $tab === 'favorites' ? 'active' : '' }}">
                     Favoritos
                 </a>
             </div>
@@ -106,12 +106,14 @@
                                 </span>
                             </a>
 
-                            <livewire:posts.favorite-post :post="$post" :wire:key="'favorite-post-'.$post->id" />
+                            <livewire:posts.favorite-post :post="$post" :wire:key="'favorite-'.$post->id" />
                         </div>
                     </div>
                 </article>
             @empty
-                <p class="no-posts">Este usuario aún no ha publicado nada.</p>
+                <p class="no-posts">
+                    {{ $tab === 'favorites' ? 'Este usuario tiene los favoritos privados.' : 'Este usuario aún no ha publicado nada.' }}
+                </p>
             @endforelse
         </section>
     </main>

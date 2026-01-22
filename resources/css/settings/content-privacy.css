@@ -1,0 +1,105 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+
+.main-content-privacy {
+    display: flex;
+    justify-content: center;
+}
+
+/* ===== BLOQUE PRIVACIDAD ===== */
+
+.content-privacy h2 {
+    font-size: 18px;
+    color: var(--color-gris-oscuro);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.content-privacy-box {
+    width: 300px;
+}
+
+/* ===== TÍTULO DESPLEGABLE ===== */
+
+.privacy-title {
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-gris-oscuro);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* ===== OPCIONES ===== */
+
+.privacy-options {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ===== TARJETAS DE PRIVACIDAD (INTERACCIÓN) ===== */
+
+.privacy-card {
+    border: 1px solid var(--color-gris-claro);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.privacy-card:hover {
+    background: rgba(33, 82, 109, 0.05);
+    border-color: var(--color-azul-claro);
+    transform: translateY(-1px);
+}
+
+.privacy-card.active {
+    background: rgba(33, 82, 109, 0.12);
+    border-color: var(--color-azul-oscuro);
+}
+
+.privacy-card.active:hover {
+    background: rgba(33, 82, 109, 0.12);
+    transform: none;
+}
+
+.privacy-options input[type="radio"] {
+    accent-color: var(--color-azul-oscuro);
+}
+
+
+/* ===== BOTÓN GUARDAR ===== */
+
+.btn-save-privacy {
+    margin-top: 10px;
+    background: var(--color-azul-oscuro);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-save-privacy:hover {
+    background: var(--color-azul-claro);
+    color: var(--color-gris-oscuro);
+}
+
+/* ===== MENSAJE GUARDADO ===== */
+
+.saved-msg {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: green;
+}
+
+.no-posts {
+    text-align: center;
+}
