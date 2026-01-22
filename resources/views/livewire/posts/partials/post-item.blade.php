@@ -25,6 +25,8 @@
             </a>
 
             <livewire:posts.favorite-post :post="$post" :wire:key="'favorite-post-'.$post->id" />
+
+            <livewire:posts.shared-post :post="$post" :wire:key="'shared-'.$post->id" />
         </div>
     </div>
 

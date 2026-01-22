@@ -40,4 +40,11 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'favorites')
             ->withTimestamps();
     }
+
+    // Usuarios que han compartido este post
+    public function sharedBy()
+    {
+        return $this->belongsToMany(User::class, 'shares')
+            ->withTimestamps();
+    }
 }

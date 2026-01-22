@@ -144,4 +144,11 @@ class User extends Authenticatable
 
         return false;
     }
+
+    // Posts compartidos
+    public function sharedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'shares')
+            ->withTimestamps();
+    }
 }

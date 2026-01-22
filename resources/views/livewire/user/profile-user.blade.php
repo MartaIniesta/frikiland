@@ -53,7 +53,7 @@
                     Posts
                 </a>
 
-                <a class="cat">
+                <a wire:click.prevent="setTab('shared')" class="cat {{ $tab === 'shared' ? 'active' : '' }}">
                     Compartidos
                 </a>
 
@@ -107,6 +107,8 @@
                             </a>
 
                             <livewire:posts.favorite-post :post="$post" :wire:key="'favorite-'.$post->id" />
+
+                            <livewire:posts.shared-post :post="$post" :wire:key="'shared-'.$post->id" />
                         </div>
                     </div>
                 </article>

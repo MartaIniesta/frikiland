@@ -51,6 +51,14 @@ class ProfileUser extends Component
                 ->get();
         }
 
+        if ($this->tab === 'shared') {
+            return $this->user
+                ->sharedPosts()
+                ->withCount('comments')
+                ->latest()
+                ->get();
+        }
+
         return collect();
     }
 
