@@ -39,6 +39,7 @@ class FollowUser extends Component
             ->toggle($this->user->id);
 
         $this->isFollowing = ! $this->isFollowing;
+        $this->dispatch('followUpdated');
     }
 
     public function render()

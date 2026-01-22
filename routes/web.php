@@ -6,6 +6,9 @@ use Livewire\Volt\Volt;
 use App\Livewire\Pages\SocialWeb;
 use App\Livewire\Pages\ShopWeb;
 use App\Livewire\Posts\ShowPost;
+use App\Livewire\User\ProfileUser;
+use App\Livewire\User\ContentPrivacy;
+
 
 Route::get('/', function () {
     return view('home');
@@ -29,6 +32,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/posts/{post}', ShowPost::class)
         ->name('posts.show');
+
+    Route::get('/user/{username}', ProfileUser::class)
+        ->name('user.profile');
+
+
+    Route::get('/profile/configuration', ContentPrivacy::class)
+        ->name('profile.configuration');
 
     Route::redirect('settings', 'settings/profile');
 

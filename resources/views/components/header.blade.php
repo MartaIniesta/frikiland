@@ -25,11 +25,12 @@
                 @auth
                     <div class="user-menu">
                         <button class="user-avatar-btn" onclick="toggleUserMenu(event)">
-                            <img src="{{ auth()->user()->avatar ? asset(auth()->user()->avatar) : asset('images/default-avatar.png') }}">
+                            <img
+                                src="{{ auth()->user()->avatar ? asset(auth()->user()->avatar) : asset('images/default-avatar.png') }}">
                         </button>
 
                         <div class="user-dropdown" id="userDropdown">
-                            <a href="{{ route('profile.edit') }}">Profile</a>
+                            <a href="{{ route('user.profile', auth()->user()->username) }}">Profile</a>
                             <a href="{{ route('profile.edit') }}">Edit Profile</a>
 
                             <form method="POST" action="{{ route('logout') }}">

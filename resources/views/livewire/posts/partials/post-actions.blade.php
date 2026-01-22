@@ -1,5 +1,5 @@
 <div class="wrap-profile">
-    <a href="#" class="profile-link">
+    <a href="{{ route('user.profile', $post->user->username) }}" class="profile-link">
         <img src="{{ asset($post->user->avatar) }}" class="img-profile">
 
         <div class="profile-name">

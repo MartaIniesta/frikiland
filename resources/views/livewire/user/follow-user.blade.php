@@ -1,5 +1,3 @@
-<button wire:click="toggleFollow"
-    class="px-3 py-1 rounded
-        {{ $isFollowing ? 'bg-gray-300' : 'bg-blue-500 text-white' }}">
+<button wire:click="toggleFollow" class="btn-profile-users {{ $isFollowing ? 'following' : '' }}">
     {{ $isFollowing ? 'Siguiendo' : 'Seguir' }}
 </button>

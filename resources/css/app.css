@@ -24,6 +24,7 @@
 
     /* USERS */
     @import './users/profile.css';
+    @import './users/profile-user.css';
     @import './users/avatar-picker.css';
     @import './users/setting-profile.css';
     @import './users/change-password.css';
