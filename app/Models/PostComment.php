@@ -20,8 +20,11 @@ class PostComment extends Model
         'parent_id',
         'content',
         'media',
-        'likes_count',
     ];
+
+    /* =============================
+        RELACIONES
+    ============================== */
 
     public function post(): BelongsTo
     {
@@ -40,20 +43,22 @@ class PostComment extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(PostComment::class, 'parent_id')
-            ->latest();
+        return $this->hasMany(PostComment::class, 'parent_id')->latest();
     }
 
-    public function likedBy()
+    /* =============================
+        FAVORITES (LIKES)
+    ============================== */
+
+    public function favorites()
     {
-        return $this->belongsToMany(
-            User::class,
-            'post_comment_likes'
-        )->withTimestamps();
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
-    public function isLikedBy(User $user): bool
+    public function isFavoritedBy(User $user): bool
     {
-        return $this->likedBy()->where('user_id', $user->id)->exists();
+        return $this->favorites()
+            ->where('user_id', $user->id)
+            ->exists();
     }
 }

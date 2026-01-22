@@ -13,7 +13,6 @@
 
                 <div class="create-post-top">
                     <img src="{{ asset(Auth::user()->avatar) }}" class="create-avatar">
-
                     <textarea wire:model.defer="content" class="create-textarea" placeholder="Escribe un comentario…"></textarea>
                 </div>
 
@@ -48,12 +47,14 @@
 
                 {{-- HEADER --}}
                 <div class="wrap-profile">
-                    <img src="{{ asset($comment->user->avatar) }}" class="img-profile">
+                    <a href="{{ route('user.profile', $comment->user->username) }}" class="profile-link">
+                        <img src="{{ asset($comment->user->avatar) }}" class="img-profile">
 
-                    <div class="profile-name">
-                        <p>{{ $comment->user->name }}</p>
-                        <span>{{ '@' . $comment->user->username }}</span>
-                    </div>
+                        <div class="profile-name">
+                            <p>{{ $comment->user->name }}</p>
+                            <span>{{ '@' . $comment->user->username }}</span>
+                        </div>
+                    </a>
 
                     <div class="right-content">
                         <span>{{ $comment->created_at->diffForHumans() }}</span>
@@ -106,28 +107,25 @@
 
                 {{-- ACCIONES --}}
                 <div class="content-icons">
-                    <span>
-                        <button wire:click="toggleReply({{ $comment->id }})">
-                            <i class="bx bx-message-rounded"></i>
-                            {{ $comment->replies()->count() }}
-                        </button>
-                    </span>
+                    {{-- RESPUESTAS --}}
+                    <div class="content-icons-left">
+                        <span>
+                            <button wire:click="toggleReply({{ $comment->id }})">
+                                <i class="bx bx-message-rounded"></i>
+                                {{ $comment->replies()->count() }}
+                            </button>
+                        </span>
 
-                    {{-- LIKES --}}
-                    <span class="ml-4">
-                        <button wire:click="toggleLike({{ $comment->id }})">
-                            <i
-                                class="bx {{ auth()->check() && $comment->isLikedBy(auth()->user()) ? 'bxs-heart text-red-500' : 'bx-heart' }}"></i>
-                            {{ $comment->likes_count }}
-                        </button>
-                    </span>
+                        {{-- FAVORITE (LIKE UNIFICADO) --}}
+                        <livewire:favorite-content :model="$comment" :wire:key="'fav-comment-'.$comment->id" />
+                    </div>
                 </div>
 
+                {{-- RESPONDER --}}
                 @if ($replyingToId === $comment->id)
                     <div class="create-post-box relative">
                         <div class="create-post-top">
                             <img src="{{ asset(Auth::user()->avatar) }}" class="create-avatar">
-
                             <textarea wire:model.defer="replyContent" class="create-textarea" placeholder="Escribe una respuesta…"></textarea>
                         </div>
 
@@ -142,12 +140,8 @@
                                 <label for="replyMediaInput-{{ $comment->id }}">
                                     <i class="bx bx-image"></i>
                                 </label>
-
                                 <input type="file" id="replyMediaInput-{{ $comment->id }}"
                                     wire:model="newReplyMedia" multiple hidden>
-
-                                <i class="bx bx-smile"></i>
-                                <i class="bx bx-paperclip"></i>
                             </div>
 
                             <button wire:click="addReply" class="btn-post">
@@ -160,7 +154,7 @@
                 {{-- VER RESPUESTAS --}}
                 @if ($comment->replies()->count() > 0 && !isset($repliesToShow[$comment->id]))
                     <button wire:click="loadMoreReplies({{ $comment->id }})"
-                        class="text-sm text-gray-500 mt-2 ml-6 cursor-pointer">
+                        class="text-sm text-gray-500 mt-2 cursor-pointer">
                         Mostrar respuestas
                     </button>
                 @endif
@@ -172,47 +166,48 @@
                         $totalReplies = $comment->replies()->count();
                     @endphp
 
-                    <div class="ml-6 mt-4 space-y-4">
-                        @foreach ($comment->replies()->latest()->take($shownReplies)->get() as $reply)
-                            <article class="posts" wire:key="reply-{{ $reply->id }}">
-                                <div class="wrap-profile">
+                    @foreach ($comment->replies()->latest()->take($repliesToShow[$comment->id])->get() as $reply)
+                        <article class="posts" wire:key="reply-{{ $reply->id }}">
+                            <div class="wrap-profile">
+                                <a href="{{ route('user.profile', $reply->user->username) }}" class="profile-link">
                                     <img src="{{ asset($reply->user->avatar) }}" class="img-profile">
+
                                     <div class="profile-name">
                                         <p>{{ $reply->user->name }}</p>
                                         <span>{{ '@' . $reply->user->username }}</span>
                                     </div>
+                                </a>
+
+                                <div class="right-content">
+                                    <span>{{ $reply->created_at->diffForHumans() }}</span>
                                 </div>
-
-                                <p class="text-main-content">{{ $reply->content }}</p>
-
-                                @if ($reply->media)
-                                    @include('livewire.posts.media', [
-                                        'media' => $reply->media,
-                                        'removable' => false,
-                                    ])
-                                @endif
-                            </article>
-                        @endforeach
-
-                        {{-- MOSTRAR MÁS COMENTARIOS --}}
-                        @if (isset($repliesToShow[$comment->id]))
-                            <div class="ml-6 mt-2 flex gap-3">
-
-                                @if ($repliesToShow[$comment->id] < $comment->replies()->count())
-                                    <button wire:click="loadMoreReplies({{ $comment->id }})"
-                                        class="text-sm text-gray-400 cursor-pointer">
-                                        Mostrar más
-                                    </button>
-                                @endif
-
-                                <button wire:click="loadLessReplies({{ $comment->id }})"
-                                    class="text-sm text-gray-400 cursor-pointer">
-                                    Mostrar menos
-                                </button>
-
                             </div>
+
+                            <p class="text-main-content">{{ $reply->content }}</p>
+
+                            @if ($reply->media)
+                                @include('livewire.posts.media', [
+                                    'media' => $reply->media,
+                                    'removable' => false,
+                                ])
+                            @endif
+                        </article>
+                    @endforeach
+
+                    {{-- MOSTRAR MÁS COMENTARIOS --}}
+                    @if (isset($repliesToShow[$comment->id]))
+                        @if ($repliesToShow[$comment->id] < $comment->replies()->count())
+                            <button wire:click="loadMoreReplies({{ $comment->id }})"
+                                class="text-sm text-gray-400 cursor-pointer">
+                                Mostrar más
+                            </button>
                         @endif
-                    </div>
+
+                        <button wire:click="loadLessReplies({{ $comment->id }})"
+                            class="text-sm text-gray-400 cursor-pointer">
+                            Mostrar menos
+                        </button>
+                    @endif
                 @endif
             </article>
         @empty

@@ -35,13 +35,16 @@ class Post extends Model
             ->whereNull('parent_id');
     }
 
-    public function favoritedBy()
+    public function favorites()
     {
-        return $this->belongsToMany(User::class, 'favorites')
-            ->withTimestamps();
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
-    // Usuarios que han compartido este post
+    public function isFavoritedBy(User $user): bool
+    {
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
+
     public function sharedBy()
     {
         return $this->belongsToMany(User::class, 'shares')

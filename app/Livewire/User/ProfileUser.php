@@ -45,10 +45,12 @@ class ProfileUser extends Component
         }
 
         if ($this->tab === 'favorites') {
-            return $this->user->favoritePosts()
-                ->withCount('comments')
+            return $this->user
+                ->favorites()
+                ->with('favoritable.user')
                 ->latest()
-                ->get();
+                ->get()
+                ->map(fn($fav) => $fav->favoritable);
         }
 
         if ($this->tab === 'shared') {

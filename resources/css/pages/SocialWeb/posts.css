@@ -37,7 +37,7 @@
     align-items: center;
     width: 178px;
     font-size: 16px;
-    gap: 14px;
+    gap: 10px;
 }
 
 .profile-name {
@@ -106,7 +106,7 @@
 
 .content-icons-left {
     display: flex;
-    gap: 20px;
+    gap: 12px;
     align-items: center;
 }
 

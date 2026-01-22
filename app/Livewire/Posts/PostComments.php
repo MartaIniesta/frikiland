@@ -98,7 +98,7 @@ class PostComments extends Component
     {
         $this->validateContent('content');
 
-        $comment = PostComment::create([
+        PostComment::create([
             'post_id' => $this->postId,
             'user_id' => Auth::id(),
             'content' => $this->content,
@@ -117,12 +117,10 @@ class PostComments extends Component
     public function toggleReply(int $commentId)
     {
         if ($this->replyingToId === $commentId) {
-            // cerrar
             $this->replyingToId = null;
             $this->replyContent = '';
             $this->replyMedia = [];
         } else {
-            // abrir
             $this->replyingToId = $commentId;
             $this->replyContent = '';
             $this->replyMedia = [];
@@ -143,7 +141,6 @@ class PostComments extends Component
 
         Post::where('id', $this->postId)->increment('comments_count');
 
-        // 👇 mostrar replies automáticamente
         $this->repliesToShow[$this->replyingToId] = 4;
 
         $this->resetForm();
@@ -153,7 +150,6 @@ class PostComments extends Component
         EDIT
     ============================== */
 
-    // EDITAR
     public function edit(PostComment $comment)
     {
         $this->authorize('update', $comment);
@@ -163,7 +159,6 @@ class PostComments extends Component
         $this->editingMedia = $comment->media ?? [];
     }
 
-    // UPDATE (CORREGIDO)
     public function update()
     {
         $this->validateContent('editingContent');
@@ -174,11 +169,9 @@ class PostComments extends Component
         $mediaPaths = [];
 
         foreach ($this->editingMedia as $item) {
-            if ($item instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
-                $mediaPaths[] = $item->store('posts', 'public');
-            } else {
-                $mediaPaths[] = $item;
-            }
+            $mediaPaths[] = $item instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile
+                ? $item->store('posts', 'public')
+                : $item;
         }
 
         $comment->update([
@@ -215,11 +208,7 @@ class PostComments extends Component
 
     public function loadMoreReplies(int $commentId)
     {
-        if (!isset($this->repliesToShow[$commentId])) {
-            $this->repliesToShow[$commentId] = 0;
-        }
-
-        $this->repliesToShow[$commentId] += 4;
+        $this->repliesToShow[$commentId] = ($this->repliesToShow[$commentId] ?? 0) + 4;
     }
 
     public function loadLessReplies(int $commentId)
@@ -234,7 +223,6 @@ class PostComments extends Component
             unset($this->repliesToShow[$commentId]);
         }
     }
-
 
     /* =============================
         HELPERS
@@ -262,34 +250,19 @@ class PostComments extends Component
         $this->resetKey = uniqid();
     }
 
-    /* LIKES */
-    public function toggleLike(int $commentId)
-    {
-        $comment = PostComment::findOrFail($commentId);
+    /* =============================
+        RENDER
+    ============================== */
 
-        if ($comment->likedBy()->where('user_id', Auth::id())->exists()) {
-            // unlike
-            $comment->likedBy()->detach(Auth::id());
-            $comment->decrement('likes_count');
-        } else {
-            // like
-            $comment->likedBy()->attach(Auth::id());
-            $comment->increment('likes_count');
-        }
-    }
-
-    /* RENDER */
     public function render()
     {
-        // Comentarios visibles (limitados)
         $comments = PostComment::where('post_id', $this->postId)
             ->whereNull('parent_id')
-            ->with(['user'])
+            ->with('user')
             ->latest()
             ->take($this->commentsToShow)
             ->get();
 
-        // Total real de comentarios (sin límite)
         $totalComments = PostComment::where('post_id', $this->postId)
             ->whereNull('parent_id')
             ->count();

@@ -18,6 +18,7 @@
         </x-slot:search>
     </x-header>
 
+    {{-- PERFIL --}}
     <div class="wrap-profile-all">
         <div class="wrapper-profile">
             <div class="profile-users-blade">
@@ -48,6 +49,7 @@
                 <p>{{ $user->bio }}</p>
             </div>
 
+            {{-- TABS --}}
             <div class="wrap-profile-cat cursor-pointer">
                 <a wire:click.prevent="setTab('posts')" class="cat {{ $tab === 'posts' ? 'active' : '' }}">
                     Posts
@@ -64,59 +66,110 @@
         </div>
     </div>
 
+    {{-- CONTENIDO --}}
     <main class="wrap-main">
-        <!-- CONTENIDO -->
         <section class="main-content">
-            @forelse ($posts as $post)
-                <article class="posts">
-                    <div class="wrap-profile">
-                        <a href="{{ route('user.profile', $post->user->username) }}" class="profile-link">
-                            <img src="{{ asset($post->user->avatar) }}" class="img-profile">
 
-                            <div class="profile-name">
-                                <p>{{ $post->user->name }}</p>
-                                <span>{{ '@' . $post->user->username }}</span>
+            @if ($posts->isEmpty())
+                <p class="no-posts">
+                    {{ $tab === 'favorites' ? 'Este usuario tiene los favoritos privados.' : 'No hay contenido para mostrar.' }}
+                </p>
+            @else
+                @foreach ($posts as $item)
+                    {{-- POST --}}
+                    @if ($item instanceof \App\Models\Post)
+                        <article class="posts">
+                            <div class="wrap-profile">
+                                <a href="{{ route('user.profile', $item->user->username) }}" class="profile-link">
+                                    <img src="{{ asset($item->user->avatar) }}" class="img-profile">
+
+                                    <div class="profile-name">
+                                        <p>{{ $item->user->name }}</p>
+                                        <span>{{ '@' . $item->user->username }}</span>
+                                    </div>
+                                </a>
+
+                                <div class="right-content">
+                                    <span>{{ $item->created_at->diffForHumans() }}</span>
+                                </div>
                             </div>
-                        </a>
 
-                        <div class="right-content">
-                            <span>{{ $post->created_at->diffForHumans() }}</span>
-                        </div>
-                    </div>
-                    <div class="text-main-content">
-                        <p>{{ $post->content }}</p>
-                    </div>
+                            <p class="text-main-content">{{ $item->content }}</p>
 
-                    @if ($post->media)
-                        <div class="content-img">
-                            @include('livewire.posts.media', [
-                                'media' => $post->media,
-                                'removable' => false,
-                            ])
-                        </div>
+                            @if ($item->media)
+                                <div class="content-img">
+                                    @include('livewire.posts.media', [
+                                        'media' => $item->media,
+                                        'removable' => false,
+                                    ])
+                                </div>
+                            @endif
+
+                            <div class="content-icons">
+                                <div class="content-icons-left">
+                                    <a href="{{ route('posts.show', $item) }}">
+                                        <span>
+                                            <i class="bx bx-message-rounded"></i>
+                                            {{ $item->comments_count }}
+                                        </span>
+                                    </a>
+
+                                    <livewire:favorite-content :model="$item" :wire:key="'fav-post-'.$item->id" />
+
+                                    <livewire:posts.shared-post :post="$item"
+                                        :wire:key="'shared-post-'.$item->id" />
+                                </div>
+                            </div>
+                        </article>
                     @endif
 
-                    {{-- ICONOS --}}
-                    <div class="content-icons">
-                        <div class="content-icons-left">
-                            <a href="{{ route('posts.show', $post) }}" class="comment-link">
-                                <span>
-                                    <i class="bx bx-message-rounded"></i>
-                                    {{ $post->comments_count }}
-                                </span>
-                            </a>
+                    {{-- COMENTARIO --}}
+                    @if ($item instanceof \App\Models\PostComment)
+                        <article class="posts">
+                            <div class="wrap-profile">
+                                <a href="{{ route('user.profile', $item->user->username) }}" class="profile-link">
+                                    <img src="{{ asset($item->user->avatar) }}" class="img-profile">
 
-                            <livewire:posts.favorite-post :post="$post" :wire:key="'favorite-'.$post->id" />
+                                    <div class="profile-name">
+                                        <p>{{ $item->user->name }}</p>
+                                        <span>{{ '@' . $item->user->username }}</span>
+                                    </div>
+                                </a>
 
-                            <livewire:posts.shared-post :post="$post" :wire:key="'shared-'.$post->id" />
-                        </div>
-                    </div>
-                </article>
-            @empty
-                <p class="no-posts">
-                    {{ $tab === 'favorites' ? 'Este usuario tiene los favoritos privados.' : 'Este usuario aún no ha publicado nada.' }}
-                </p>
-            @endforelse
+                                <div class="right-content">
+                                    <span>{{ $item->created_at->diffForHumans() }}</span>
+                                </div>
+                            </div>
+
+                            <p class="text-main-content">{{ $item->content }}</p>
+
+                            @if ($item->media)
+                                <div class="content-img">
+                                    @include('livewire.posts.media', [
+                                        'media' => $item->media,
+                                        'removable' => false,
+                                    ])
+                                </div>
+                            @endif
+
+                            <div class="content-icons">
+                                <div class="content-icons-left">
+                                    <a href="{{ route('posts.show', $item->post) }}#comment-{{ $item->id }}"
+                                        class="comment-link" title="Ver comentario en el post">
+                                        <span>
+                                            <i class="bx bx-message-rounded"></i>
+                                            {{ $item->replies()->count() }}
+                                        </span>
+                                    </a>
+
+                                    <livewire:favorite-content :model="$item" :wire:key="'fav-comment-'.$item->id" />
+                                </div>
+                            </div>
+                        </article>
+                    @endif
+                @endforeach
+            @endif
+
         </section>
     </main>
 </div>

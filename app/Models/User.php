@@ -74,10 +74,9 @@ class User extends Authenticatable
     }
 
     // Posts favoritos
-    public function favoritePosts()
+    public function favorites()
     {
-        return $this->belongsToMany(Post::class, 'favorites')
-            ->withTimestamps();
+        return $this->hasMany(Favorite::class);
     }
 
     // Usuarios que sigo
