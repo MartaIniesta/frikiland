@@ -13,6 +13,9 @@ new class extends Component {
     public string $bio = '';
     public string $avatar = '';
 
+    public int $followersCount = 0;
+    public int $postsCount = 0;
+
     /**
      * Mount the component.
      */
@@ -25,6 +28,9 @@ new class extends Component {
         $this->username = $user->username ?? '';
         $this->bio = $user->bio ?? '';
         $this->avatar = $user->avatar ?? 'images/default-avatar.png';
+
+        $this->followersCount = $user->followers()->count();
+        $this->postsCount = $user->posts()->count();
     }
 
     /**
@@ -87,8 +93,8 @@ new class extends Component {
         </a>
     </x-banner-categories>
 
-    <x-profile.user-card :avatar="$this->avatar" :name="$this->name" :username="$this->username" :bio="$this->bio" followers="200"
-        posts="x">
+    <x-profile.user-card :avatar="$this->avatar" :name="$this->name" :username="$this->username" :bio="$this->bio" :followers="$this->followersCount"
+        :posts="$this->postsCount">
         <x-slot:actions>
             <livewire:settings.delete-user-form />
         </x-slot:actions>

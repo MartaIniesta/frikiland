@@ -29,7 +29,7 @@
                     <div class="profile-users-sub">
                         <span>{{ '@' . $user->username }}</span>
                         <span>-</span>
-                        <span>{{ $user->followers()->count() }} seguidores</span>
+                        <span>{{ $user->followers_count }} seguidores</span>
                         <span>-</span>
                         <span>{{ $user->posts()->count() }} posts</span>
                     </div>
@@ -74,7 +74,7 @@
                             <img src="{{ asset($post->user->avatar) }}" class="img-profile">
 
                             <div class="profile-name">
-                                <strong>{{ $post->user->name }}</strong>
+                                <p>{{ $post->user->name }}</p>
                                 <span>{{ '@' . $post->user->username }}</span>
                             </div>
                         </a>

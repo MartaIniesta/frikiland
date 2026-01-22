@@ -42,6 +42,7 @@
 
 .profile-name {
     display: flex;
+    align-items: center;
     gap: 5px;
     color: #fff;
     white-space: nowrap;

@@ -17,7 +17,7 @@
 
                 <div class="profile-users-sub">
                     <span style="color: var(--color-gris-oscuro);">
-                        {{ $username }}
+                        {{ '@' . $username }}
                     </span>
 
                     @if ($followers !== null)

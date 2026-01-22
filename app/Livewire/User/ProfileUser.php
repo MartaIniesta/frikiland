@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 
 class ProfileUser extends Component
 {
@@ -17,7 +18,9 @@ class ProfileUser extends Component
 
     public function mount($username)
     {
-        $this->user = User::where('username', $username)->firstOrFail();
+        $this->user = User::where('username', $username)
+            ->withCount('followers')
+            ->firstOrFail();
     }
 
     public function setTab(string $tab)
@@ -50,6 +53,13 @@ class ProfileUser extends Component
 
         return collect();
     }
+
+    #[On('followUpdated')]
+    public function refreshUser()
+    {
+        $this->user->loadCount('followers');
+    }
+
 
     public function render()
     {
