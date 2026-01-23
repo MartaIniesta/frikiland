@@ -29,6 +29,7 @@
     text-decoration: none;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
 }
 
 .cat::after {

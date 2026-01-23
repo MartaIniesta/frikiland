@@ -9,14 +9,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\PostComment;
 use App\Models\Post;
 use App\Traits\HandlesPostMedia;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class PostComments extends Component
 {
     use WithFileUploads, HandlesPostMedia, AuthorizesRequests;
-
-    /* =============================
-        STATE
-    ============================== */
 
     public int $postId;
 
@@ -43,9 +40,6 @@ class PostComments extends Component
 
     public string $resetKey;
 
-    /* =============================
-        INIT
-    ============================== */
 
     public function mount(int $postId)
     {
@@ -53,9 +47,6 @@ class PostComments extends Component
         $this->resetKey = uniqid();
     }
 
-    /* =============================
-        MEDIA HANDLERS
-    ============================== */
 
     public function updatedNewMedia()
     {
@@ -90,9 +81,6 @@ class PostComments extends Component
         $this->editingMedia = array_values($this->editingMedia);
     }
 
-    /* =============================
-        CREATE COMMENT
-    ============================== */
 
     public function addComment()
     {
@@ -110,9 +98,6 @@ class PostComments extends Component
         $this->resetForm();
     }
 
-    /* =============================
-        REPLIES
-    ============================== */
 
     public function toggleReply(int $commentId)
     {
@@ -146,9 +131,6 @@ class PostComments extends Component
         $this->resetForm();
     }
 
-    /* =============================
-        EDIT
-    ============================== */
 
     public function edit(PostComment $comment)
     {
@@ -169,7 +151,7 @@ class PostComments extends Component
         $mediaPaths = [];
 
         foreach ($this->editingMedia as $item) {
-            $mediaPaths[] = $item instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile
+            $mediaPaths[] = $item instanceof TemporaryUploadedFile
                 ? $item->store('posts', 'public')
                 : $item;
         }
@@ -182,9 +164,6 @@ class PostComments extends Component
         $this->resetForm();
     }
 
-    /* =============================
-        DELETE
-    ============================== */
 
     public function delete(PostComment $comment)
     {
@@ -197,9 +176,6 @@ class PostComments extends Component
         Post::where('id', $this->postId)->decrement('comments_count', $count);
     }
 
-    /* =============================
-        LOAD MORE
-    ============================== */
 
     public function loadMoreComments()
     {
@@ -224,9 +200,6 @@ class PostComments extends Component
         }
     }
 
-    /* =============================
-        HELPERS
-    ============================== */
 
     private function validateContent(string $field)
     {
@@ -250,9 +223,6 @@ class PostComments extends Component
         $this->resetKey = uniqid();
     }
 
-    /* =============================
-        RENDER
-    ============================== */
 
     public function render()
     {

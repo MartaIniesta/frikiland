@@ -16,12 +16,16 @@
         </x-slot:search>
     </x-header>
 
-
     <x-banner-categories>
-        <a href="{{ route('social-web') }}" class="cat active">PARA TI</a>
-        <a href="#" class="cat">SIGUIENDO</a>
-    </x-banner-categories>
+        <a href="{{ url('/social-web') }}" class="cat {{ request('feed', 'for_you') === 'for_you' ? 'active' : '' }}">
+            PARA TI
+        </a>
 
+        <a href="{{ url('/social-web/following') }}"
+            class="cat {{ request()->is('social-web/following') ? 'active' : '' }}">
+            SIGUIENDO
+        </a>
+    </x-banner-categories>
 
     <!-- POSTS -->
     <div class="content-web">

@@ -11,7 +11,8 @@ class ShowPost extends Component
 
     public function mount(Post $post)
     {
-        $this->post = $post->load('user');
+        $this->post = $post->load('user')
+            ->loadCount('comments');
     }
 
     public function render()
