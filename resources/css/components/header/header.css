@@ -115,3 +115,8 @@
 .return:hover {
     color: black;
 }
+
+.auth-nav {
+    display: flex;
+    align-items: center;
+}

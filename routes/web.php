@@ -6,7 +6,7 @@ use Livewire\Volt\Volt;
 use App\Livewire\Pages\{SocialWeb, ShopWeb};
 use App\Livewire\Posts\ShowPost;
 use App\Livewire\User\{ProfileUser, ContentPrivacy};
-
+use App\Livewire\Notifications\NotificationsIndex;
 
 Route::get('/', fn() => view('home'))->name('home');
 
@@ -36,6 +36,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile/configuration', ContentPrivacy::class)
         ->name('profile.configuration');
+
+    Route::get('/notifications', NotificationsIndex::class)
+        ->name('notifications.index');
 
     Route::redirect('/settings', '/settings/profile');
 

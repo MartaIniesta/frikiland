@@ -12,6 +12,7 @@
     /* HEADER */
     @import './components/header/header.css';
     @import './components/header/dropdown-user.css';
+    @import './components/header/dropdown-notification.css';
 
     /* FOOTER */
     @import './components/footer.css';

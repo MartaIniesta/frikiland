@@ -23,6 +23,8 @@
         @if (Route::has('login'))
             <div class="auth-nav">
                 @auth
+                    @include('livewire.notifications.notification-menu')
+
                     <div class="user-menu">
                         <button class="user-avatar-btn" onclick="toggleUserMenu(event)">
                             <img
