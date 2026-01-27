@@ -282,3 +282,19 @@
 .btn-cancel-replies {
     color: var(--color-blanco);
 }
+
+/* FORMULARIO COMENTARIOS EDITAR */
+.textarea-comment {
+    color: var(--color-blanco);
+}
+
+.update-comment {
+    background-color: var(--color-azul-claro);
+    cursor: pointer;
+}
+
+.cancel-comment {
+    background-color: var(--color-azul-oscuro);
+    color: var(--color-blanco);
+    cursor: pointer;
+}
