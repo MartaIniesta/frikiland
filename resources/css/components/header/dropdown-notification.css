@@ -20,7 +20,6 @@
     top: 5px;
     right: -6px;
     background: #e11d48;
-    /* rojo */
     color: #fff;
     font-size: 11px;
     font-weight: 600;
@@ -94,4 +93,20 @@
 
 .time {
     font-size: 11px;
+}
+
+.notification-item a {
+    display: block;
+    line-height: 1.4;
+}
+
+.notification-item .excerpt {
+    display: block;
+    margin-top: 4px;
+    color: #555;
+    font-size: 13px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
 }

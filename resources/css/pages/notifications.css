@@ -73,11 +73,25 @@
     box-shadow: none;
 }
 
-/* USUARIO */
+/* CONTENEDOR DEL TEXTO */
 .wrap-user-notification {
     display: flex;
     align-items: center;
     gap: 5px;
+    flex-wrap: wrap;
+}
+
+.wrap-user-notification strong {
+    white-space: nowrap;
+}
+
+.wrap-user-notification .excerpt {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 /* AVATAR */
