@@ -3,21 +3,22 @@
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
+
 use App\Livewire\Pages\{SocialWeb, ShopWeb};
 use App\Livewire\Posts\ShowPost;
 use App\Livewire\User\{ProfileUser, ContentPrivacy};
 use App\Livewire\Notifications\NotificationsIndex;
 
-Route::get('/', fn() => view('home'))->name('home');
+Route::get('/', fn() => view('home'))
+    ->name('home');
 
 Route::get('/shop-web', ShopWeb::class)
     ->name('shop-web');
 
-Route::get('/social-web', SocialWeb::class)
+Route::redirect('/social-web', '/social-web/for-you')
     ->name('social-web');
 
-Route::get('/social-web/for_you', SocialWeb::class)
-    ->name('social-web.for-you');
+Route::middleware('auth')->group(function () {});
 
 Route::get('/register', fn() => redirect()->route('login'))
     ->name('register');
@@ -27,6 +28,10 @@ Route::view('/dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    /* PAGES */
+    Route::get('/social-web/for-you', SocialWeb::class)
+        ->name('social-web.for-you');
+
     Route::get('/social-web/following', SocialWeb::class)
         ->name('social-web.following');
 
@@ -42,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', NotificationsIndex::class)
         ->name('notifications.index');
 
+
+    /* SETTINGS */
     Route::redirect('/settings', '/settings/profile');
 
     Volt::route('/settings/profile', 'settings.profile')

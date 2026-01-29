@@ -5,7 +5,15 @@
 <article class="posts" wire:key="post-{{ $context }}-{{ $post->id }}">
     @include('livewire.posts.partials.post-actions', ['post' => $post])
 
-    <p class="text-main-content">{{ $post->content }}</p>
+    <p class="text-main-content">
+        {!! nl2br(
+            preg_replace(
+                '/(https?:\/\/[^\s]+)/',
+                '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
+                e($post->content),
+            ),
+        ) !!}
+    </p>
 
     @if ($post->media)
         <div class="content-img">

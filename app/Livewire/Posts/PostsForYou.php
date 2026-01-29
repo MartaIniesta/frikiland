@@ -77,10 +77,6 @@ class PostsForYou extends Component
 
     public function addPost()
     {
-        if (! Auth::check()) {
-            redirect()->route('login')->send();
-        }
-
         $this->validate([
             'content' => 'required|min:1|max:280',
             'media.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,webm|max:20480',
@@ -111,9 +107,9 @@ class PostsForYou extends Component
 
     public function updatedNewEditMedia()
     {
-        foreach ($this->newEditMedia as $file) {
-            $this->editMedia[] = $file;
-        }
+        $this->handleMediaUpload($this->media, $this->newMedia, 'media');
+
+        $this->newMedia = [];
     }
 
     public function removeEditMedia($index)

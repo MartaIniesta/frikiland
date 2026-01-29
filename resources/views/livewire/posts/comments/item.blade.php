@@ -17,23 +17,38 @@
 
     {{-- CONTENIDO --}}
     @if ($editingCommentId === $comment->id)
-        <div class="relative" x-data="{ dragging: false }" x-on:dragover.prevent="dragging = true"
+        <div class="relative" x-data="{
+            dragging: false,
+            showLinkInput: false,
+            link: '',
+            addLink() {
+                if (!this.link) return;
+
+                this.$refs.editTextarea.value += ' ' + this.link;
+                this.link = '';
+                this.showLinkInput = false;
+
+                this.$refs.editTextarea.dispatchEvent(new Event('input'));
+            }
+        }" x-on:dragover.prevent="dragging = true"
             x-on:dragleave.prevent="dragging = false"
             x-on:drop.prevent="
-            dragging = false;
-            $wire.uploadMultiple('newEditingMedia', [...$event.dataTransfer.files])
-        "
+                dragging = false;
+                $wire.uploadMultiple('newEditingMedia', [...$event.dataTransfer.files])
+            "
             :class="{ 'dragging': dragging }">
-            <textarea wire:model.defer="editingContent" class="w-full border rounded p-2 mb-2 textarea-comment"
+
+            <textarea x-ref="editTextarea" wire:model.defer="editingContent" class="w-full border rounded p-2 mb-2 textarea-comment"
                 placeholder="Edita tu comentario…"></textarea>
 
-            <div class="mb-2">
-                <label for="editMediaInput-{{ $comment->id }}" class="cursor-pointer">
-                    <i class="bx bx-image"></i>
-                </label>
+            {{-- INPUT ENLACE --}}
+            <div x-show="showLinkInput" x-transition class="link-input mb-2">
+                <input type="url" class="link-input-field" placeholder="Pega un enlace (https://...)"
+                    x-model="link">
 
-                <input type="file" id="editMediaInput-{{ $comment->id }}" wire:model="newEditingMedia" multiple
-                    hidden>
+                <button type="button" class="link-input-btn" @click="addLink">
+                    Añadir enlace
+                </button>
             </div>
 
             @include('livewire.posts.media', [
@@ -42,18 +57,41 @@
                 'removeMethod' => 'removeEditingMedia',
             ])
 
-            <div class="flex gap-2 mt-2">
-                <button wire:click="update" class="px-3 py-1 rounded update-comment">
-                    Guardar
-                </button>
+            <div class="create-actions mt-2">
+                <div class="left-actions">
+                    <label for="editMediaInput-{{ $comment->id }}" class="cursor-pointer">
+                        <i class="bx bx-image"></i>
+                    </label>
 
-                <button wire:click="$set('editingCommentId', null)" class="px-3 py-1 rounded cancel-comment">
-                    Cancelar
-                </button>
+                    <input type="file" id="editMediaInput-{{ $comment->id }}" wire:model="newEditingMedia" multiple
+                        hidden>
+
+                    <button type="button" @click="showLinkInput = !showLinkInput" title="Añadir enlace">
+                        <i class="bx bx-paperclip"></i>
+                    </button>
+                </div>
+
+                <div class="flex gap-2 mt-2">
+                    <button wire:click="update" class="update-comment">
+                        Guardar
+                    </button>
+
+                    <button wire:click="$set('editingCommentId', null)" class="cancel-comment">
+                        Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     @else
-        <p class="text-main-content">{{ $comment->content }}</p>
+        <p class="text-main-content">
+            {!! nl2br(
+                preg_replace(
+                    '/(https?:\/\/[^\s]+)/',
+                    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
+                    e($comment->content),
+                ),
+            ) !!}
+        </p>
     @endif
 
     @if ($comment->media)
