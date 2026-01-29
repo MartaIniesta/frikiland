@@ -23,7 +23,7 @@
         @if (Route::has('login'))
             <div class="auth-nav">
                 @auth
-                    @include('livewire.notifications.notification-menu')
+                    <livewire:notifications.notification-menu />
 
                     @include('livewire.user.dropdown-user')
                 @else

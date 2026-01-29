@@ -1,0 +1,74 @@
+.notifications-content {
+    display: flex;
+    justify-content: center;
+}
+
+.notification-list-all {
+    width: 100%;
+    max-width: 700px;
+    list-style: none;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.notification-item-all {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-item-all:last-child {
+    border-bottom: none;
+}
+
+.notification-item-all a {
+    color: #222;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.notification-item-all a strong {
+    font-weight: 600;
+}
+
+.notification-item-all.unread {
+    background: #f5f8ff;
+}
+
+.notification-item-all.unread a {
+    font-weight: 500;
+}
+
+.notification-item-all.read {
+    opacity: 0.65;
+}
+
+.notification-item .time {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+}
+
+.notification-item-all.empty {
+    justify-content: center;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    padding: 24px;
+}
+
+
+.wrap-user-notification {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.img-notification-user {
+    border-radius: 100%;
+}

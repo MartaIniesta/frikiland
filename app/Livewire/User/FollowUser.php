@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Notifications\UserFollowed;
 
 class FollowUser extends Component
 {
@@ -28,15 +29,22 @@ class FollowUser extends Component
 
     public function toggleFollow()
     {
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
 
         $this->authorize('follow', $this->user);
 
-        Auth::user()
+        $isFollowing = Auth::user()
             ->following()
-            ->toggle($this->user->id);
+            ->where('followed_id', $this->user->id)
+            ->exists();
+
+        Auth::user()->following()->toggle($this->user->id);
+
+        if (! $isFollowing) {
+            $this->user->notify(new UserFollowed(Auth::user()));
+        }
 
         return redirect(request()->header('Referer'));
     }

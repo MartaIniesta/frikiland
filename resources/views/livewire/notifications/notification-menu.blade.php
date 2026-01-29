@@ -2,7 +2,11 @@
     <button @click="open = !open" class="notification-btn" aria-haspopup="true" :aria-expanded="open.toString()">
         <div class="hola">
             <i class="bx bx-bell notification-icon"></i>
-            <span class="notification-badge">3</span>
+            @if ($unreadCount > 0)
+                <span class="notification-badge">
+                    {{ $unreadCount }}
+                </span>
+            @endif
         </div>
     </button>
 
@@ -11,12 +15,24 @@
         <p class="dropdown-title">Notificaciones</p>
 
         <ul class="notification-list">
-            <li class="notification-item">Usuario X comentó tu post</li>
-            <li class="notification-item">Usuario Y te siguió</li>
-            <li class="notification-item">Nueva respuesta a tu comentario</li>
+            @foreach ($notifications as $notification)
+                @if ($notification->data['type'] === 'user_followed')
+                    @php
+                        $follower = \App\Models\User::find($notification->data['follower_id']);
+                    @endphp
+
+                    @if ($follower)
+                        <li class="notification-item">
+                            <a href="{{ route('user.profile', $follower->username) }}">
+                                <strong>{{ $follower->name }}</strong> te ha seguido
+                            </a>
+                        </li>
+                    @endif
+                @endif
+            @endforeach
         </ul>
 
-        <a href="{{ route('notifications.index') }}" class="view-more">
+        <a href="{{ route('notifications.index') }}" wire:click="markAllAsRead" class="view-more">
             Ver más →
         </a>
     </div>
