@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Post;
 use App\Traits\HandlesPostMedia;
+use App\Events\PostCreated;
 
 class PostsForYou extends Component
 {
@@ -42,7 +43,6 @@ class PostsForYou extends Component
     }
 
     /* ---------------- FEED ---------------- */
-
     public function loadPosts()
     {
         if (! $this->hasMore) return;
@@ -63,7 +63,6 @@ class PostsForYou extends Component
     }
 
     /* ---------------- CREAR ---------------- */
-
     public function updatedNewMedia()
     {
         $this->handleMediaUpload($this->media, $this->newMedia, 'media');
@@ -88,13 +87,14 @@ class PostsForYou extends Component
             'media'   => $this->storeMedia($this->media),
         ]);
 
+        event(new PostCreated($post));
+
         $this->posts->prepend($post->load('user'));
 
         $this->reset(['content', 'media', 'newMedia']);
     }
 
     /* ---------------- EDITAR ---------------- */
-
     public function edit(int $postId)
     {
         $post = Post::findOrFail($postId);
@@ -161,7 +161,6 @@ class PostsForYou extends Component
     }
 
     /* ---------------- ELIMINAR ---------------- */
-
     public function confirmDelete(int $postId)
     {
         $post = Post::findOrFail($postId);
