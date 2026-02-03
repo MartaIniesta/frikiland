@@ -100,7 +100,7 @@ class User extends Authenticatable
         $visibility = $this->privacyFor($type);
 
         if ($visibility === 'public') {
-            return true;
+            return $viewer !== null;
         }
 
         if (! $viewer) {
