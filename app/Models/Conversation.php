@@ -9,7 +9,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conversation extends Model
 {
-    protected $fillable = ['status'];
+    protected $fillable = [
+        'status',
+        'initiator_id'
+    ];
+
+    public function initiator()
+    {
+        return $this->belongsTo(User::class, 'initiator_id');
+    }
 
     /** Usuarios de la conversación */
     public function users(): BelongsToMany

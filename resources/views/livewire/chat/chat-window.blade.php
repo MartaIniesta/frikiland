@@ -2,13 +2,9 @@
     @php
         $authUser = auth()->user();
 
-        // Usuario que inició la conversación
-        $initiator = $conversation->messages()->exists()
-            ? $conversation->messages()->first()->user
-            : $conversation->users->first();
+        $initiator = $conversation->users->firstWhere('id', $conversation->initiator_id);
 
-        // Usuario que debe aceptar o rechazar
-        $receiver = $conversation->users->where('id', '!=', $initiator->id)->first();
+        $receiver = $conversation->users->firstWhere('id', '!=', $conversation->initiator_id);
     @endphp
 
     {{-- ================= CABECERA ================= --}}
