@@ -59,3 +59,8 @@
     border-radius: 50%;
     border: 2px solid #fff;
 }
+
+.last-message {
+    max-width: 170px;
+    overflow-wrap: break-word;
+}

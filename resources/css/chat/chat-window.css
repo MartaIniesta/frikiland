@@ -22,7 +22,8 @@
 
 
 .message {
-    max-width: 70%;
+    overflow-wrap: break-word;
+    max-width: 550px;
     padding: 10px 14px;
     border-radius: 16px;
     font-size: 14px;
