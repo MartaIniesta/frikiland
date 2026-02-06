@@ -23,7 +23,11 @@
                         <img src="{{ asset($item['user']->avatar) }}" width="40" height="40"
                             alt="{{ $item['user']->name }}">
 
-                        <div class="circulo-verde"></div>
+                        @if ($item['status'] === 'active')
+                            <div class="circulo-verde"></div>
+                        @elseif ($item['status'] === 'pending' && $item['initiatedByMe'])
+                            <div class="circulo-amarillo"></div>
+                        @endif
 
                         @if ($item['lastMessage'] && $item['lastMessage']->read_at === null && $item['lastMessage']->user_id !== auth()->id())
                             <span class="unread-dot"></span>

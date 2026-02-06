@@ -12,13 +12,7 @@
         <div class="chat-complete">
             <livewire:chat.chat-sidebar />
 
-            <div class="chat-window friends">
-                <div class="title-friend-chat">
-                    <p>Conectado - 1</p>
-                </div>
-
-                <div class="friend-connect"></div>
-            </div>
+            <livewire:chat.chat-available-friends />
 
             <livewire:chat.chat-pending-sidebar />
         </div>

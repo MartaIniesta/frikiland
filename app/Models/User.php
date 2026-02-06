@@ -7,23 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\ContentPrivacy;
-use App\Models\ChatRequest;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'username',
-        'avatar',
-        'bio',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'username', 'avatar', 'bio'];
 
     protected $hidden = [
         'password',
@@ -49,19 +40,16 @@ class User extends Authenticatable
             ->implode('');
     }
 
-    // Posts del usuario
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    // Posts favoritos
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class);
     }
 
-    // Usuarios que sigo
     public function following(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -72,7 +60,6 @@ class User extends Authenticatable
         )->withTimestamps();
     }
 
-    // Usuarios que me siguen
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -83,8 +70,6 @@ class User extends Authenticatable
         )->withTimestamps();
     }
 
-
-    // Privacidad
     public function contentPrivacies(): HasMany
     {
         return $this->hasMany(ContentPrivacy::class);
@@ -134,8 +119,6 @@ class User extends Authenticatable
         return $this->canViewContent('shared', $viewer);
     }
 
-
-    // Posts compartidos
     public function shares(): HasMany
     {
         return $this->hasMany(Share::class);
@@ -159,8 +142,6 @@ class User extends Authenticatable
             ->pluck('shareable');
     }
 
-
-    // Chat
     public function conversations(): BelongsToMany
     {
         return $this->belongsToMany(Conversation::class);
@@ -171,15 +152,24 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    /* Solicitudes ENVIADAS */
     public function chatRequestsSent(): HasMany
     {
         return $this->hasMany(ChatRequest::class, 'from_user_id');
     }
 
-    /* Solicitudes RECIBIDAS */
     public function chatRequestsReceived(): HasMany
     {
         return $this->hasMany(ChatRequest::class, 'to_user_id');
+    }
+
+    public function scopeAvailableForChat(Builder $query, User $authUser): Builder
+    {
+        return $query->whereIn('id', $authUser->following()->pluck('users.id'))->whereDoesntHave('conversations', function ($q) use ($authUser) {
+            $q->whereHas('users', fn($u) => $u->where('users.id', $authUser->id));
+        })->whereDoesntHave('chatRequestsReceived', function ($q) use ($authUser) {
+            $q->where('from_user_id', $authUser->id);
+        })->whereDoesntHave('chatRequestsSent', function ($q) use ($authUser) {
+            $q->where('to_user_id', $authUser->id);
+        });
     }
 }

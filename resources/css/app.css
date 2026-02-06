@@ -44,6 +44,7 @@
     @import './chat/chat-sidebar.css';
     @import './chat/chat-pending-sidebar.css';
     @import './chat/chat-window.css';
+    @import './chat/chat-available-friends.css';
 }
 
 @source '../views';

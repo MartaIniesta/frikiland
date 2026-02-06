@@ -26,6 +26,8 @@ class ChatService
                 'conversation' => $conversation,
                 'user'         => $otherUser,
                 'lastMessage'  => $conversation->messages->first(),
+                'status'       => $conversation->status,
+                'initiatedByMe' => $conversation->initiator_id === $user->id,
             ];
         });
     }
