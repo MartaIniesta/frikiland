@@ -12,12 +12,14 @@
 
     <x-banner-categories>
         <a href="{{ route('shop-web') }}" class="cat">TIENDA</a>
+
         <button x-on:click="$dispatch('filter-my-products')" class="cat">
-            Mis artículos
+            MIS ARTICULOS
         </button>
+
         <button wire:click="$dispatch('cart')" class="cat flex items-center gap-2">
-            <i class="bx bx-cart"></i> 
-            Carrito
+            <i class="bx bx-cart"></i>
+            CARRITO
             {{-- Llamamos al mini-componente --}}
             <livewire:products.cart-counter />
         </button>
