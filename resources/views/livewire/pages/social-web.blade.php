@@ -1,11 +1,5 @@
 <div>
     <x-header>
-        <x-slot:menu>
-            <div class="menu" id="menu">
-                <i class="bx bx-menu"></i>
-            </div>
-        </x-slot:menu>
-
         <x-slot:search>
             <div class="search">
                 <input type="text" placeholder="Buscar…" aria-label="Buscar">
@@ -28,7 +22,6 @@
         </a>
     </x-banner-categories>
 
-    <!-- POSTS -->
     <main class="wrap-main">
         <section class="main-content">
             @if (request()->is('social-web/following'))

@@ -9,9 +9,6 @@
     {{-- Barra principal --}}
     <div class="shop-nav">
         <div class="nav-left">
-            {{-- Menu --}}
-            {{ $menu ?? '' }}
-
             <a href="{{ route('home') }}">
                 <h1 class="title-header">FRIKILAND</h1>
             </a>
