@@ -245,7 +245,13 @@ class Products extends Component
         }
 
         if ($this->search) {
-            $query->where('name', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('categories', function ($cat) {
+                        $cat->where('name', 'like', '%' . $this->search . '%');
+                    });
+            });
         }
 
         return view('livewire.products.products', [
