@@ -1,5 +1,9 @@
 <div>
-    <x-header />
+    <x-header>
+        <x-slot:search>
+            <livewire:user-search-header />
+        </x-slot:search>
+    </x-header>
 
     <x-banner-categories class="banner-categories-chat">
         <a href="{{ route('chat.index') }}" class="cat active">
