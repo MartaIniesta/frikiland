@@ -41,24 +41,38 @@
 }
 
 /* Buscador */
+/* CONTENEDOR */
+.search-wrapper {
+    position: relative;
+}
+
+/* Buscador */
 .search {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: var(--color-blanco);
-    border-radius: 8px;
-    padding-inline: 10px;
+    border-radius: 10px;
+    padding-inline: 12px;
     padding-block: 4px;
     width: 600px;
-    height: 30px;
+    height: 36px;
+    border: 1px solid var(--color-gris-claro);
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search:focus-within {
+    border-color: var(--color-gris-oscuro);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 .search input {
-    background-color: var(--color-blanco);
+    background-color: transparent;
     border: none;
     outline: none;
     font-size: 14px;
-    width: 558px;
+    width: 100%;
+    color: var(--color-negro);
 }
 
 .search input::placeholder {
@@ -70,9 +84,68 @@
     border: none;
     cursor: pointer;
     font-size: 18px;
-    height: 30px;
+    background: none;
     color: var(--color-gris-claro);
     align-items: center;
+}
+
+/* RESULTADOS */
+.search-result {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    width: 600px;
+    background-color: var(--color-blanco);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    z-index: 50;
+    animation: fadeIn 0.15s ease;
+}
+
+/* Usuario */
+.search-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--color-negro);
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+.search-user img {
+    width: 40px;
+    border-radius: 50%;
+}
+
+.name-search {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-user:hover {
+    background-color: var(--color-gris-muy-claro);
+}
+
+.search-empty {
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--color-gris-claro);
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ---- BOTÓN HAMBURGUESA ---- */
