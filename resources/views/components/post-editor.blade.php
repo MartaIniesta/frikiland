@@ -28,7 +28,7 @@
     </div>
 
     {{-- MEDIA PREVIEW --}}
-    @if ($media)
+    @if (!empty($media))
         @include('livewire.posts.media', [
             'media' => $media,
             'removable' => true,
