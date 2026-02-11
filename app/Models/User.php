@@ -31,6 +31,15 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            if (! $user->hasAnyRole()) {
+                $user->assignRole('user');
+            }
+        });
+    }
+
     public function initials(): string
     {
         return Str::of($this->name)

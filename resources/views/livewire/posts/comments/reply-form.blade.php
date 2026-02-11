@@ -15,22 +15,27 @@
     x-on:dragover.prevent="dragging = true" x-on:dragleave.prevent="dragging = false"
     x-on:drop.prevent="
         dragging = false;
-        $wire.uploadMultiple('newReplyMedia', [...$event.dataTransfer.files])
+        $refs.fileInput.files = $event.dataTransfer.files;
+        $refs.fileInput.dispatchEvent(new Event('change'));
     "
     :class="{ 'dragging': dragging }">
+
     <div class="create-post-top">
-        <img src="{{ asset(Auth::user()->avatar) }}" class="create-avatar">
+        <img src="{{ asset(auth()->user()->avatar) }}" class="create-avatar">
 
         <textarea x-ref="replyTextarea" wire:model.defer="replyContent" class="create-textarea"
-            placeholder="Escribe una respuesta…"></textarea>
+            placeholder="Escribe una respuesta…">
+        </textarea>
     </div>
 
+    {{-- MEDIA PREVIEW --}}
     @include('livewire.posts.media', [
         'media' => $replyMedia,
         'removable' => true,
         'removeMethod' => 'removeReplyMedia',
     ])
 
+    {{-- INPUT ENLACE --}}
     <div x-show="showLinkInput" x-transition class="link-input">
         <input type="url" class="link-input-field" placeholder="Pega un enlace (https://...)" x-model="link">
 
@@ -45,7 +50,8 @@
                 <i class="bx bx-image"></i>
             </label>
 
-            <input type="file" id="replyMediaInput-{{ $comment->id }}" wire:model="newReplyMedia" multiple hidden>
+            <input x-ref="fileInput" type="file" id="replyMediaInput-{{ $comment->id }}" wire:model="newReplyMedia"
+                multiple hidden>
 
             <button type="button" @click="showLinkInput = !showLinkInput" title="Añadir enlace">
                 <i class="bx bx-paperclip"></i>

@@ -26,6 +26,11 @@ class RolePermissionSeeder extends Seeder
             'favorite.post',
             'shared.post',
 
+            // Comentarios
+            'comment.create',
+            'comment.update',
+            'comment.delete',
+
             // Productos
             'product.create',
             'product.update',
@@ -49,6 +54,9 @@ class RolePermissionSeeder extends Seeder
                 'post.create',
                 'post.update',
                 'post.delete',
+                'comment.create',
+                'comment.update',
+                'comment.delete',
                 'favorite.post',
                 'shared.post',
             ],

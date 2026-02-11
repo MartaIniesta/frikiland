@@ -363,3 +363,7 @@
 .link-input-btn:hover {
     background: #1d4ed8;
 }
+
+.comment-icon-trash:hover {
+    color: #cb3234 !important;
+}

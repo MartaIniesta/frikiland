@@ -2,12 +2,13 @@
     use App\Helpers\ContentFormatter;
 @endphp
 
-<article class="posts" wire:key="comment-{{ $comment->id }}">
+<article class="posts">
 
     {{-- HEADER --}}
     <div class="wrap-profile">
         <a href="{{ route('user.profile', $comment->user->username) }}" class="profile-link">
             <img src="{{ asset($comment->user->avatar) }}" class="img-profile">
+
             <div class="profile-name">
                 <p>{{ $comment->user->name }}</p>
                 <span>{{ '@' . $comment->user->username }}</span>
@@ -20,41 +21,12 @@
     </div>
 
     {{-- CONTENIDO --}}
-    @if ($editingCommentId === $comment->id)
-        <div class="relative" x-data="{
-            dragging: false,
-            showLinkInput: false,
-            link: '',
-            addLink() {
-                if (!this.link) return;
-
-                this.$refs.editTextarea.value += ' ' + this.link;
-                this.link = '';
-                this.showLinkInput = false;
-
-                this.$refs.editTextarea.dispatchEvent(new Event('input'));
-            }
-        }" x-on:dragover.prevent="dragging = true"
-            x-on:dragleave.prevent="dragging = false"
-            x-on:drop.prevent="
-                dragging = false;
-                $wire.uploadMultiple('newEditingMedia', [...$event.dataTransfer.files])
-            "
-            :class="{ 'dragging': dragging }">
-
-            <textarea x-ref="editTextarea" wire:model.defer="editingContent" class="w-full border rounded p-2 mb-2 textarea-comment"
+    @if ($isEditing)
+        <div class="relative">
+            <textarea wire:model.defer="editingContent" class="w-full border rounded p-2 mb-2 textarea-comment"
                 placeholder="Edita tu comentario…"></textarea>
 
-            {{-- INPUT ENLACE --}}
-            <div x-show="showLinkInput" x-transition class="link-input mb-2">
-                <input type="url" class="link-input-field" placeholder="Pega un enlace (https://...)"
-                    x-model="link">
-
-                <button type="button" class="link-input-btn" @click="addLink">
-                    Añadir enlace
-                </button>
-            </div>
-
+            {{-- PREVIEW MEDIA --}}
             @include('livewire.posts.media', [
                 'media' => $editingMedia,
                 'removable' => true,
@@ -69,10 +41,6 @@
 
                     <input type="file" id="editMediaInput-{{ $comment->id }}" wire:model="newEditingMedia" multiple
                         hidden>
-
-                    <button type="button" @click="showLinkInput = !showLinkInput" title="Añadir enlace">
-                        <i class="bx bx-paperclip"></i>
-                    </button>
                 </div>
 
                 <div class="flex gap-2 mt-2">
@@ -80,7 +48,7 @@
                         Guardar
                     </button>
 
-                    <button wire:click="$set('editingCommentId', null)" class="cancel-comment">
+                    <button wire:click="cancelEditing" class="cancel-comment">
                         Cancelar
                     </button>
                 </div>
@@ -92,6 +60,7 @@
         </p>
     @endif
 
+    {{-- MEDIA --}}
     @if ($comment->media)
         <div class="content-img">
             @include('livewire.posts.media', [
@@ -101,17 +70,18 @@
         </div>
     @endif
 
-    {{-- ACCIONES --}}
+    {{-- ACCIONES (likes, fav, share...) --}}
     @include('livewire.posts.comments.actions', [
         'comment' => $comment,
     ])
 
     {{-- FORM REPLY --}}
-    @if ($replyingToId === $comment->id)
+    @if ($isReplying)
         @include('livewire.posts.comments.reply-form', [
             'comment' => $comment,
         ])
     @endif
+
 
     {{-- REPLIES --}}
     @include('livewire.posts.comments.replies', [

@@ -1,24 +1,22 @@
-@if ($comment->replies()->count() > 0 && !isset($repliesToShow[$comment->id]))
-    <button wire:click="loadMoreReplies({{ $comment->id }})" class="text-sm text-gray-500 mt-2 cursor-pointer">
+@if ($comment->replies->count() > 0 && $repliesToShow === 0)
+    <button wire:click="loadMoreReplies" class="text-sm text-gray-500 mt-2 cursor-pointer">
         Mostrar respuestas
     </button>
 @endif
 
-@if (isset($repliesToShow[$comment->id]))
-    @foreach ($comment->replies()->latest()->take($repliesToShow[$comment->id])->get() as $reply)
-        @include('livewire.posts.comments.item', [
-            'comment' => $reply,
-        ])
+@if ($repliesToShow > 0)
+    @foreach ($comment->replies->sortByDesc('created_at')->take($repliesToShow) as $reply)
+        <livewire:posts.comments.comment-item :comment="$reply" :key="'comment-' . $reply->id" />
     @endforeach
 
     <div class="mt-2 flex gap-3">
-        @if ($repliesToShow[$comment->id] < $comment->replies()->count())
-            <button wire:click="loadMoreReplies({{ $comment->id }})" class="text-sm text-gray-400 cursor-pointer">
+        @if ($repliesToShow < $comment->replies->count())
+            <button wire:click="loadMoreReplies" class="text-sm text-gray-400 cursor-pointer">
                 Mostrar más
             </button>
         @endif
 
-        <button wire:click="loadLessReplies({{ $comment->id }})" class="text-sm text-gray-400 cursor-pointer">
+        <button wire:click="loadLessReplies" class="text-sm text-gray-400 cursor-pointer">
             Mostrar menos
         </button>
     </div>

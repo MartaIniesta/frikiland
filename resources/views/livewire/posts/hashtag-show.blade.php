@@ -69,64 +69,10 @@
 
             {{-- ================= COMMENTS ================= --}}
             @if ($comments->isNotEmpty())
-                <h3 class="hashtag-section-title">Respuestas de posts</h3>
+                <h3 class="hashtag-section-title mt-10">Respuestas de posts</h3>
 
                 @foreach ($comments as $comment)
-                    <article class="posts">
-                        <div class="wrap-profile">
-                            <a href="{{ route('user.profile', $comment->user->username) }}" wire:navigate
-                                class="profile-link">
-
-                                <img src="{{ asset($comment->user->avatar) }}" class="img-profile">
-                                <div class="profile-name">
-                                    <p>{{ $comment->user->name }}</p>
-                                    <span>@ {{ $comment->user->username }}</span>
-                                </div>
-                            </a>
-
-                            <div class="right-content">
-                                <span>{{ $comment->created_at->diffForHumans() }}</span>
-                            </div>
-                        </div>
-
-                        <p class="text-main-content">
-                            {!! nl2br(ContentFormatter::format($comment->content)) !!}
-                        </p>
-
-                        <small class="comment-origin" style="color: var(--color-gris-claro);">
-                            <a href="{{ route('posts.show', $comment->post) }}">
-                                En el post de {{ $comment->post->user->name }}
-                            </a>
-                        </small>
-
-                        <div class="content-icons">
-                            <div class="content-icons-left">
-                                <button wire:click="toggleReply({{ $comment->id }})">
-                                    <span>
-                                        <i class="bx bx-message-rounded"></i>
-                                        {{ $comment->replies()->count() }}
-                                    </span>
-                                </button>
-
-                                <livewire:favorite-content :model="$comment" :wire:key="'fav-comment-'.$comment->id" />
-                                <livewire:shared-content :model="$comment" :wire:key="'share-comment-'.$comment->id" />
-                            </div>
-
-                            <div class="right-content flex items-center gap-3">
-                                @can('update', $comment)
-                                    <button wire:click="edit({{ $comment->id }})" class="text-gray-400 hover:text-black"
-                                        title="Editar">
-                                        <i class="bx bx-pencil"></i>
-                                    </button>
-
-                                    <button wire:click="delete({{ $comment->id }})"
-                                        class="text-gray-400 hover:text-red-600" title="Eliminar">
-                                        <i class="bx bx-trash"></i>
-                                    </button>
-                                @endcan
-                            </div>
-                        </div>
-                    </article>
+                    <livewire:posts.comments.comment-item :comment="$comment" :key="'hashtag-comment-' . $comment->id" />
                 @endforeach
             @endif
 

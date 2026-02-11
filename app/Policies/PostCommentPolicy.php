@@ -7,15 +7,20 @@ use App\Models\User;
 
 class PostCommentPolicy
 {
+    public function create(User $user): bool
+    {
+        return $user->can('comment.create');
+    }
+
     public function update(User $user, PostComment $comment): bool
     {
-        return $user->can('post.update')
-            && $comment->user_id === $user->id;
+        return $comment->user_id === $user->id
+            && $user->can('comment.update');
     }
 
     public function delete(User $user, PostComment $comment): bool
     {
-        return $user->can('post.delete')
-            && $comment->user_id === $user->id;
+        return $comment->user_id === $user->id
+            && $user->can('comment.delete');
     }
 }

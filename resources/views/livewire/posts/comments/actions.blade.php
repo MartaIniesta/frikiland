@@ -1,9 +1,9 @@
 <div class="content-icons">
     <div class="content-icons-left">
-        <button wire:click="toggleReply({{ $comment->id }})">
+        <button wire:click="toggleReply">
             <span>
                 <i class="bx bx-message-rounded"></i>
-                {{ $comment->replies()->count() }}
+                {{ $comment->replies->count() }}
             </span>
         </button>
 
@@ -12,14 +12,14 @@
     </div>
 
     <div class="right-content flex items-center gap-3">
-        @can('update', $comment)
-            <button wire:click="edit({{ $comment->id }})" class="text-gray-400 hover:text-black" title="Editar">
+        @if (auth()->id() === $comment->user_id)
+            <button wire:click="startEditing">
                 <i class="bx bx-pencil"></i>
             </button>
 
-            <button wire:click="delete({{ $comment->id }})" class="text-gray-400 hover:text-red-600" title="Eliminar">
-                <i class="bx bx-trash"></i>
+            <button wire:click="delete">
+                <i class="bx bx-trash comment-icon-trash"></i>
             </button>
-        @endcan
+        @endif
     </div>
 </div>
