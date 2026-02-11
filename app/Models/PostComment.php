@@ -46,6 +46,11 @@ class PostComment extends Model
         return $this->hasMany(PostComment::class, 'parent_id')->latest();
     }
 
+    public function hashtags()
+    {
+        return $this->morphToMany(Hashtag::class, 'hashtagable');
+    }
+
     /* =============================
         FAVORITES (LIKES)
     ============================== */

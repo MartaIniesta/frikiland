@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Post;
 use App\Traits\HandlesPostMedia;
 use App\Events\PostCreated;
+use App\Models\Hashtag;
 
 class PostsForYou extends Component
 {
@@ -86,6 +87,16 @@ class PostsForYou extends Component
             'content' => $this->content,
             'media'   => $this->storeMedia($this->media),
         ]);
+
+        preg_match_all('/#(\w+)/', $this->content, $matches);
+
+        foreach ($matches[1] as $tag) {
+            $hashtag = Hashtag::firstOrCreate([
+                'name' => strtolower($tag)
+            ]);
+
+            $post->hashtags()->syncWithoutDetaching([$hashtag->id]);
+        }
 
         event(new PostCreated($post));
 

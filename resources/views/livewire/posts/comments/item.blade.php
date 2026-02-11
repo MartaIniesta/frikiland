@@ -1,3 +1,7 @@
+@php
+    use App\Helpers\ContentFormatter;
+@endphp
+
 <article class="posts" wire:key="comment-{{ $comment->id }}">
 
     {{-- HEADER --}}
@@ -84,13 +88,7 @@
         </div>
     @else
         <p class="text-main-content">
-            {!! nl2br(
-                preg_replace(
-                    '/(https?:\/\/[^\s]+)/',
-                    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
-                    e($comment->content),
-                ),
-            ) !!}
+            {!! ContentFormatter::format($comment->content) !!}
         </p>
     @endif
 

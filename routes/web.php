@@ -12,6 +12,7 @@ use App\Livewire\Chat\ChatShow;
 use App\Livewire\SearchPosts;
 use App\Http\Controllers\ChatStartController;
 use App\Http\Controllers\ChatRequestController;
+use \App\Livewire\Posts\HashtagShow;
 
 
 Route::get('/', fn() => view('home'))
@@ -70,6 +71,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/notifications', NotificationsIndex::class)
         ->name('notifications.index');
+
+    Route::get('/hashtag/{name}', HashtagShow::class)
+        ->name('hashtag.show');
 
     /* CHAT */
     Route::get('/chat', ChatIndex::class)

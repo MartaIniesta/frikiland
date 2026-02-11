@@ -1,20 +1,10 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Helpers;
 
-use Livewire\Component;
-use App\Models\Post;
-
-class SearchPosts extends Component
+class ContentFormatter
 {
-    public $q;
-
-    public function mount()
-    {
-        $this->q = request('q');
-    }
-
-    public function formatContent($content)
+    public static function format($content)
     {
         $content = e($content);
 
@@ -31,14 +21,5 @@ class SearchPosts extends Component
         }, $content);
 
         return $content;
-    }
-
-    public function render()
-    {
-        $posts = Post::where('content', 'like', '%' . $this->q . '%')
-            ->latest()
-            ->paginate(10);
-
-        return view('livewire.search-posts', compact('posts'));
     }
 }

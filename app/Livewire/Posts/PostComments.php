@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\PostComment;
 use App\Models\Post;
+use App\Models\Hashtag;
 use App\Traits\HandlesPostMedia;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use App\Notifications\ContentReplied;
@@ -105,6 +106,16 @@ class PostComments extends Component
             );
         }
 
+        preg_match_all('/#(\w+)/', $this->content, $matches);
+
+        foreach ($matches[1] as $tag) {
+            $hashtag = Hashtag::firstOrCreate([
+                'name' => strtolower($tag)
+            ]);
+
+            $comment->hashtags()->attach($hashtag->id);
+        }
+
         $this->resetForm();
     }
 
@@ -141,6 +152,16 @@ class PostComments extends Component
             $parentComment->user->notify(
                 new ContentReplied(Auth::user(), $reply)
             );
+        }
+
+        preg_match_all('/#(\w+)/', $this->replyContent, $matches);
+
+        foreach ($matches[1] as $tag) {
+            $hashtag = Hashtag::firstOrCreate([
+                'name' => strtolower($tag)
+            ]);
+
+            $reply->hashtags()->attach($hashtag->id);
         }
 
         $this->repliesToShow[$this->replyingToId] = 4;

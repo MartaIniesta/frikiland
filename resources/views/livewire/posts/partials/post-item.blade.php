@@ -1,4 +1,5 @@
 @php
+    use App\Helpers\ContentFormatter;
     $context = $this->getName();
 @endphp
 
@@ -6,13 +7,7 @@
     @include('livewire.posts.partials.post-actions', ['post' => $post])
 
     <p class="text-main-content">
-        {!! nl2br(
-            preg_replace(
-                '/(https?:\/\/[^\s]+)/',
-                '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
-                e($post->content),
-            ),
-        ) !!}
+        {!! nl2br(ContentFormatter::format($post->content)) !!}
     </p>
 
     @if ($post->media)

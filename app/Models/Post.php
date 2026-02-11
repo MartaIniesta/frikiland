@@ -34,6 +34,11 @@ class Post extends Model
             ->whereNull('parent_id');
     }
 
+    public function hashtags()
+    {
+        return $this->morphToMany(Hashtag::class, 'hashtagable');
+    }
+
     public function favorites()
     {
         return $this->morphMany(Favorite::class, 'favoritable');

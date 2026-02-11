@@ -33,6 +33,7 @@
     @import './pages/home.css';
     @import './pages/SocialWeb/posts.css';
     @import './pages/SocialWeb/posts-carousel.css';
+    @import './pages/SocialWeb/hashtag-show.css';
     @import './pages/notifications.css';
 
     /* SETTINGS */
