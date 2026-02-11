@@ -21,4 +21,6 @@
             </a>
         </div>
     </div>
+
+    @livewire('products.product-carousel')
 </x-layouts.app.sidebar>

@@ -50,6 +50,12 @@ class Products extends Component
     {
         $tab = request('tab');
         $this->search = '';
+        $productId = request('product');
+
+        if ($productId) {
+            $this->showProduct($productId);
+            return;
+        }
 
         if ($tab === 'mine') {
             $this->view = 'my-products';
