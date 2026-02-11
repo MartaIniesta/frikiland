@@ -1,7 +1,7 @@
 <div class="home-carousel">
     <h2 class="carousel-title">PRODUCTOS DESTACADOS</h2>
 
-    <div class="swiper mySwiper">
+    <div class="swiper mySwiper swiper-product">
         <div class="swiper-wrapper">
             @foreach ($products as $product)
                 <div class="swiper-slide">
