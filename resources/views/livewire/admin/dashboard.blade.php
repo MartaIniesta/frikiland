@@ -33,7 +33,7 @@
                 Manage Posts
             </a>
 
-            <a class="admin-module module-comments">
+            <a href="{{ route('admin.comments') }}" class="admin-module module-comments">
                 <i class="bx bx-message-dots admin-icon"></i>
                 Manage Comments
             </a>

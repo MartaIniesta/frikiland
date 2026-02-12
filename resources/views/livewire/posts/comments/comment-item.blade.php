@@ -2,7 +2,7 @@
     use App\Helpers\ContentFormatter;
 @endphp
 
-<article class="posts">
+<article id="comment-{{ $comment->id }}" class="posts">
 
     {{-- HEADER --}}
     <div class="wrap-profile">
