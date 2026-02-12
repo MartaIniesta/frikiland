@@ -8,7 +8,7 @@ trait HandlesHashtags
 {
     protected function syncHashtags($model, string $content): void
     {
-        preg_match_all('/#(\w+)/', $content, $matches);
+        preg_match_all('/#([\p{L}\p{N}_]+)/u', $content, $matches);
 
         $ids = collect($matches[1])
             ->map(function ($tag) {

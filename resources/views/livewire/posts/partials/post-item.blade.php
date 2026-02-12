@@ -1,5 +1,6 @@
 @php
     use App\Helpers\ContentFormatter;
+    $context = $this->getName();
 @endphp
 
 <article class="posts" wire:key="post-{{ $context }}-{{ $post->id }}">

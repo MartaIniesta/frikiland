@@ -4,13 +4,10 @@ namespace App\Livewire\Posts;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Auth;
-use App\Models\PostComment;
-use App\Models\Post;
-use App\Traits\HandlesPostMedia;
-use App\Traits\HandlesHashtags;
-use App\Traits\NotifiesOnReply;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
+use App\Models\{PostComment, Post};
+use App\Traits\{HandlesPostMedia, HandlesHashtags, NotifiesOnReply};
 
 class PostComments extends Component
 {

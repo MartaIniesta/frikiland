@@ -4,45 +4,53 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Livewire\Pages\{SocialWeb, ShopWeb};
-use App\Livewire\Posts\ShowPost;
+use App\Livewire\Posts\{ShowPost, HashtagShow};
 use App\Livewire\User\{ProfileUser, ContentPrivacy};
 use App\Livewire\Notifications\NotificationsIndex;
-use App\Livewire\Chat\ChatIndex;
-use App\Livewire\Chat\ChatShow;
+use App\Livewire\Chat\{ChatIndex, ChatShow};
 use App\Livewire\SearchPosts;
-use App\Http\Controllers\ChatStartController;
-use App\Http\Controllers\ChatRequestController;
-use \App\Livewire\Posts\HashtagShow;
-
+use App\Http\Controllers\{ChatStartController, ChatRequestController};
 
 Route::get('/', fn() => view('home'))
     ->name('home');
 
-Route::get('/shop-web', ShopWeb::class)
-    ->name('shop-web');
+Route::prefix('shop-web')->group(function () {
+    Route::get('/', ShopWeb::class)
+        ->name('shop-web');
 
-Route::get('/shop-web/cart', ShopWeb::class)
-    ->name('shop-web.cart');
+    Route::get('/cart', ShopWeb::class)
+        ->name('shop-web.cart');
+});
 
-Route::get('/payment/success', [App\Http\Controllers\PaymentController::class, 'success'])
-    ->name('payment.success')
-    ->middleware('auth');
+Route::prefix('payment')->group(function () {
+    Route::get('/success', [App\Http\Controllers\PaymentController::class, 'success'])
+        ->middleware('auth')
+        ->name('payment.success');
 
-Route::get('/payment/cancel', function () {
-    return redirect()->route('shop-web')->with('error', 'Pago cancelado');
-})->name('payment.cancel');
+    Route::get('/cancel', function () {
+        return redirect()
+            ->route('shop-web')
+            ->with('error', 'Pago cancelado');
+    })->name('payment.cancel');
+});
 
-Route::redirect('/social-web', '/social-web/for-you')
-    ->name('social-web');
+Route::prefix('social-web')->group(function () {
+    Route::redirect('/', '/social-web/for-you')
+        ->name('social-web');
 
-Route::get('/social-web/for-you', SocialWeb::class)
-    ->name('social-web.for-you');
+    Route::get('/for-you', SocialWeb::class)
+        ->name('social-web.for-you');
+});
 
-Route::get('/search/posts', SearchPosts::class)
-    ->name('search.posts');
+Route::prefix('search')->group(function () {
+    Route::get('/posts', SearchPosts::class)
+        ->name('search.posts');
+});
 
-
-Route::middleware('auth')->group(function () {});
+Route::prefix('hashtag')->group(function () {
+    Route::get('/{name}', HashtagShow::class)
+        ->name('hashtag.show');
+});
 
 Route::get('/register', fn() => redirect()->route('login'))
     ->name('register');
@@ -51,70 +59,79 @@ Route::view('/dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
-    /* SHOP */
-    Route::get('/shop-web/my-products', ShopWeb::class)
-        ->name('shop-web.mine');
+    Route::prefix('shop-web')->group(function () {
+        Route::get('/my-products', ShopWeb::class)
+            ->name('shop-web.mine');
+    });
 
-    /* PAGES */
-    Route::get('/social-web/following', SocialWeb::class)
-        ->name('social-web.following');
+    Route::prefix('social-web')->group(function () {
+        Route::get('/following', SocialWeb::class)
+            ->name('social-web.following');
+    });
 
-    Route::get('/posts/{post}', ShowPost::class)
-        ->name('posts.show');
+    Route::prefix('posts')->group(function () {
+        Route::get('/{post}', ShowPost::class)
+            ->name('posts.show');
+    });
 
-    Route::get('/user/{username}', ProfileUser::class)
-        ->name('user.profile');
+    Route::prefix('user')->group(function () {
+        Route::get('/{username}', ProfileUser::class)
+            ->name('user.profile');
+    });
 
-    Route::get('/profile/configuration', ContentPrivacy::class)
-        ->name('profile.configuration');
+    Route::prefix('profile')->group(function () {
+        Route::get('/configuration', ContentPrivacy::class)
+            ->name('profile.configuration');
+    });
 
-    Route::get('/notifications', NotificationsIndex::class)
-        ->name('notifications.index');
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', NotificationsIndex::class)
+            ->name('notifications.index');
+    });
 
-    Route::get('/hashtag/{name}', HashtagShow::class)
-        ->name('hashtag.show');
+    Route::prefix('chat')->group(function () {
+        Route::get('/', ChatIndex::class)
+            ->name('chat.index');
 
-    /* CHAT */
-    Route::get('/chat', ChatIndex::class)
-        ->name('chat.index');
+        Route::get('/start/{user}', ChatStartController::class)
+            ->name('chat.start');
 
-    Route::get('/chat/start/{user}', ChatStartController::class)
-        ->name('chat.start');
+        Route::get('/{conversation}', ChatShow::class)
+            ->name('chat.show');
 
-    Route::get('/chat/{conversation}', ChatShow::class)
-        ->name('chat.show');
+        Route::post('/requests/{chatRequest}/accept', [ChatRequestController::class, 'accept'])
+            ->name('chat-requests.accept');
 
-    Route::post('/chat-requests/{chatRequest}/accept', [ChatRequestController::class, 'accept'])
-        ->name('chat-requests.accept');
+        Route::post('/requests/{chatRequest}/reject', [ChatRequestController::class, 'reject'])
+            ->name('chat-requests.reject');
+    });
 
-    Route::post('/chat-requests/{chatRequest}/reject', [ChatRequestController::class, 'reject'])
-        ->name('chat-requests.reject');
+    Route::prefix('settings')->group(function () {
+        Route::redirect('/', '/settings/profile');
 
+        Volt::route('/profile', 'settings.profile')
+            ->name('profile.edit');
 
-    /* SETTINGS */
-    Route::redirect('/settings', '/settings/profile');
+        Volt::route('/password', 'settings.password')
+            ->name('user-password.edit');
 
-    Volt::route('/settings/profile', 'settings.profile')
-        ->name('profile.edit');
+        Volt::route('/appearance', 'settings.appearance')
+            ->name('appearance.edit');
 
-    Volt::route('/settings/password', 'settings.password')
-        ->name('user-password.edit');
-
-    Volt::route('/settings/appearance', 'settings.appearance')
-        ->name('appearance.edit');
-
-    Volt::route('/settings/two-factor', 'settings.two-factor')
-        ->middleware(
-            when(
-                Features::canManageTwoFactorAuthentication()
-                    && Features::optionEnabled(
-                        Features::twoFactorAuthentication(),
-                        'confirmPassword'
-                    ),
-                ['password.confirm'],
-                []
+        Volt::route('/two-factor', 'settings.two-factor')
+            ->middleware(
+                when(
+                    Features::canManageTwoFactorAuthentication()
+                        && Features::optionEnabled(
+                            Features::twoFactorAuthentication(),
+                            'confirmPassword'
+                        ),
+                    ['password.confirm'],
+                    []
+                )
             )
-        )
-        ->name('two-factor.show');
+            ->name('two-factor.show');
+    });
 });

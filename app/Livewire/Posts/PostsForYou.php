@@ -9,12 +9,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Post;
-use App\Traits\HandlesPostMedia;
+use App\Traits\{HandlesPostMedia, HandlesHashtags};
 use App\Events\PostCreated;
 
 class PostsForYou extends Component
 {
-    use WithFileUploads, HandlesPostMedia, AuthorizesRequests;
+    use WithFileUploads, HandlesPostMedia, AuthorizesRequests, HandlesHashtags;
 
     /** Feed */
     public Collection $posts;

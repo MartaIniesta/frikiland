@@ -76,18 +76,5 @@ class RolePermissionSeeder extends Seeder
             $role = Role::firstOrCreate(['name' => $roleName]);
             $role->syncPermissions($rolePermissions);
         }
-
-        // Usuario de prueba
-        $user = User::firstOrCreate([
-            'name' => 'David',
-            'username' => 'davidfriki',
-            'email' => 'redsocial@example.com',
-            'password' => Hash::make('asdf'),
-            'email_verified_at' => now(),
-            'avatar' => null,
-            'bio' => 'Usuario de prueba',
-        ]);
-
-        $user->syncRoles(['user']);
     }
 }

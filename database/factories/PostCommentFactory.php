@@ -3,29 +3,24 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Post;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class PostFactory extends Factory
+class PostCommentFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-
-    protected $model = Post::class;
-
     public function definition(): array
     {
         return [
+            'post_id' => null,
             'user_id' => null,
+            'parent_id' => null,
             'content' => $this->faker->paragraph(2),
-            'likes_count' => $this->faker->numberBetween(0, 100),
-            'comments_count' => 0,
-            'shares_count' => $this->faker->numberBetween(0, 20),
         ];
     }
 }
