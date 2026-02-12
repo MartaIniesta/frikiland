@@ -50,6 +50,9 @@
 
     /* PRODUCTS */
     @import './products/product-carousel.css';
+
+    /* ADMIN */
+    @import './admin/admin-dashboard.css';
 }
 
 @source '../views';

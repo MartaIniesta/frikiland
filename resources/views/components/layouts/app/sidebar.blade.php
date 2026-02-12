@@ -20,7 +20,7 @@
             @auth
                 @if (auth()->user()->hasRole('admin'))
                     @if (request()->is('manage'))
-                        <a href="{{ route('social-web.for-you') }}" aria-label="Ir al inicio">
+                        <a href="{{ route('home') }}" aria-label="Ir al inicio">
                             <i class="bx bxs-home"></i>
                         </a>
                     @else
