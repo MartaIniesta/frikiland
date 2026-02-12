@@ -44,6 +44,11 @@ class Post extends Model
         return $this->morphMany(Favorite::class, 'favoritable');
     }
 
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
     public function isFavoritedBy(User $user): bool
     {
         return $this->favorites()->where('user_id', $user->id)->exists();

@@ -11,23 +11,26 @@
     <div class="right-content">
         <span>{{ $post->created_at->diffForHumans() }}</span>
 
-        @can('update', $post)
-            <div x-data="{ open: false }" class="relative">
-                <button @click="open = !open" class="dots-vertical">
-                    <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open" class="dots-vertical">
+                <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
 
-                <div x-show="open" x-transition @click.away="open = false" class="modal-post">
-
+            <div x-show="open" x-transition @click.away="open = false" class="modal-post">
+                @can('update', $post)
                     <button wire:click="edit({{ $post->id }})" @click="open = false">
                         <i class="bx bx-pencil"></i> Editar
                     </button>
 
-                    <button class="btn-delete-post" wire:click="confirmDelete({{ $post->id }})" @click="open = false">
+                    <button wire:click="confirmDelete({{ $post->id }})" @click="open = false" class="btn-delete-post">
                         <i class="bx bx-trash"></i> Eliminar
                     </button>
-                </div>
+                @else
+                    <button wire:click="$dispatch('openReportModal', {{ $post->id }})" @click="open = false">
+                        <i class="bx bx-flag"></i> Reportar
+                    </button>
+                @endcan
             </div>
-        @endcan
+        </div>
     </div>
 </div>

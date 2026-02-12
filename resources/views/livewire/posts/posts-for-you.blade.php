@@ -19,4 +19,6 @@
             @include('livewire.posts.modals.delete-post')
         @endif
     </x-infinite-scroll>
+
+    <livewire:reports.create />
 </div>
