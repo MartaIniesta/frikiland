@@ -31,6 +31,8 @@
                             <strong>{{ $notification['user']->name }}</strong>
                             ha rechazado tu solicitud de conversación
                         </span>
+                    @elseif ($notification['type'] === 'content_removed')
+                        Tu {{ $notification['content_type'] }} ha sido eliminado por un administrador
                     @else
                         <a href="{{ $notification['url'] }}">
                             <strong>{{ $notification['user']->name }}</strong>

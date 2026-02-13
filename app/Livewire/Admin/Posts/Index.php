@@ -6,6 +6,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\ContentRemovedNotification;
+use Illuminate\Support\Str;
 
 class Index extends Component
 {
@@ -40,7 +42,20 @@ class Index extends Component
 
     public function deletePost()
     {
-        Post::findOrFail($this->confirmingDelete)->delete();
+        $post = Post::findOrFail($this->confirmingDelete);
+
+        $owner = $post->user;
+
+        if ($owner) {
+            $excerpt = Str::limit($post->content, 80);
+
+            $owner->notify(
+                new ContentRemovedNotification('post', $excerpt)
+            );
+        }
+
+        $post->delete();
+
         $this->confirmingDelete = null;
     }
 

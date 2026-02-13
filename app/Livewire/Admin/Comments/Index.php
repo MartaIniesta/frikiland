@@ -5,6 +5,9 @@ namespace App\Livewire\Admin\Comments;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\PostComment;
+use App\Notifications\ContentRemovedNotification;
+use Illuminate\Support\Str;
+
 
 class Index extends Component
 {
@@ -29,7 +32,23 @@ class Index extends Component
 
     public function deleteComment()
     {
-        PostComment::findOrFail($this->confirmingDelete)->delete();
+        $comment = PostComment::findOrFail($this->confirmingDelete);
+
+        $owner = $comment->user;
+
+        if ($owner) {
+
+            $type = $comment->parent_id ? 'respuesta' : 'comentario';
+
+            $excerpt = Str::limit($comment->content, 80);
+
+            $owner->notify(
+                new ContentRemovedNotification($type, $excerpt)
+            );
+        }
+
+        $comment->delete();
+
         $this->confirmingDelete = null;
     }
 

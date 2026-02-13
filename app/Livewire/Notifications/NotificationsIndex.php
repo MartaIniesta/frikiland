@@ -132,6 +132,19 @@ class NotificationsIndex extends Component
             ];
         }
 
+        /* ========= CONTENIDO ELIMINADO POR ADMIN ========= */
+        if ($data['type'] === 'content_removed') {
+
+            return [
+                'type' => 'content_removed',
+                'content_type' => $data['content_type'],
+                'excerpt' => $data['excerpt'] ?? null,
+                'url'  => $data['url'] ?? route('notifications.index'),
+                'time' => $notification->created_at->diffForHumans(),
+                'read' => isset($notification->read_at) ? (bool) $notification->read_at : false,
+            ];
+        }
+
         return null;
     }
 

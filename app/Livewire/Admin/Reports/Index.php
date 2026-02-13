@@ -4,7 +4,8 @@ namespace App\Livewire\Admin\Reports;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\{Report, Post, User};
+use App\Models\{Report, Post, User, PostComment};
+use App\Notifications\ContentRemovedNotification;
 
 class Index extends Component
 {
@@ -32,9 +33,24 @@ class Index extends Component
         $report = Report::with('reportable')->findOrFail($this->confirmingAction);
 
         if ($this->actionType === 'accept') {
+            $reportable = $report->reportable;
 
-            if ($report->reportable instanceof Post) {
-                $report->reportable->delete();
+            if ($reportable) {
+                $owner = $reportable->user;
+
+                if ($owner) {
+                    $excerpt = \Illuminate\Support\Str::limit($reportable->content, 80);
+
+                    $owner->notify(
+                        new ContentRemovedNotification(
+                            $reportable instanceof Post ? 'post'
+                                : ($reportable instanceof PostComment ? 'comentario' : 'respuesta'),
+                            $excerpt
+                        )
+                    );
+                }
+
+                $reportable->delete();
             }
 
             $report->update([
