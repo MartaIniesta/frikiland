@@ -29,13 +29,21 @@ class Create extends Component
     {
         $this->validate();
 
-        $post = Post::findOrFail($this->postId);
+        // evitar doble reporte
+        if (Report::where('reporter_id', Auth::id())
+            ->where('reportable_id', $this->postId)
+            ->where('reportable_type', Post::class)
+            ->exists()
+        ) {
+            return;
+        }
 
         Report::create([
-            'reporter_id' => Auth::id(),
-            'reason' => $this->reason,
-            'reportable_id' => $post->id,
+            'reporter_id'     => Auth::id(),
+            'reportable_id'   => $this->postId,
             'reportable_type' => Post::class,
+            'reason'          => $this->reason,
+            'status'          => 'pending',
         ]);
 
         $this->reset(['reason', 'showModal', 'postId']);

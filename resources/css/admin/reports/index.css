@@ -1,0 +1,36 @@
+.admin-accept-btn {
+    background: #b42318;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.admin-accept-btn:hover {
+    background: #8a1c14;
+}
+
+.admin-dismiss-btn {
+    background: var(--color-azul-oscuro);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    margin-left: 6px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.admin-dismiss-btn:hover {
+    background: #16394c;
+}
+
+.admin-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

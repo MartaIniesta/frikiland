@@ -93,3 +93,8 @@
     color: var(--color-azul-oscuro);
     text-decoration: underline;
 }
+
+.a-reports.has-reports {
+    color: #8a1c14;
+    font-weight: 600;
+}

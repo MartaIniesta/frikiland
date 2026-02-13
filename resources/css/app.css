@@ -58,6 +58,7 @@
     @import './admin/posts/index.css';
     @import './admin/users/index.css';
     @import './admin/comments/index.css';
+    @import './admin/reports/index.css';
 }
 
 @source '../views';

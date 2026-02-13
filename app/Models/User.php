@@ -64,11 +64,6 @@ class User extends Authenticatable
         return $this->hasMany(Favorite::class);
     }
 
-    public function reportsReceived()
-    {
-        return $this->morphMany(Report::class, 'reportable');
-    }
-
     public function following(): BelongsToMany
     {
         return $this->belongsToMany(

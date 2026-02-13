@@ -26,7 +26,8 @@
                         <i class="bx bx-trash"></i> Eliminar
                     </button>
                 @else
-                    <button wire:click="$dispatch('openReportModal', {{ $post->id }})" @click="open = false">
+                    <button wire:click="$dispatch('openReportModal', { postId: {{ $post->id }} })"
+                        @click="open = false">
                         <i class="bx bx-flag"></i> Reportar
                     </button>
                 @endcan

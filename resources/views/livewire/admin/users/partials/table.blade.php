@@ -51,8 +51,9 @@
                 </td>
 
                 <td>
-                    <a class="a-reports">
-                        Reports
+                    <a href="{{ route('admin.users.reports', $user) }}"
+                        class="a-reports {{ $user->reports_count > 0 ? 'has-reports' : '' }}">
+                        Reports ({{ $user->reports_count }})
                     </a>
                 </td>
 
