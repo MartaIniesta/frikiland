@@ -59,6 +59,10 @@
     @import './admin/users/index.css';
     @import './admin/comments/index.css';
     @import './admin/reports/index.css';
+
+    /* MODAL */
+    @import './modal/edit-post-modal.css';
+    @import './modal/delete-post-modal.css';
 }
 
 @source '../views';

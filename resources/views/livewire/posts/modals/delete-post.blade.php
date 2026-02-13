@@ -1,16 +1,17 @@
-<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <h2 class="text-lg font-semibold mb-2">Eliminar post</h2>
-        <p class="text-gray-600 mb-4">
+<div class="delete-modal-overlay">
+    <div class="delete-modal">
+        <h2 class="delete-title">Eliminar post</h2>
+
+        <p class="delete-text">
             ¿Confirmas que quieres eliminar este post?
         </p>
 
-        <div class="flex justify-end gap-2">
-            <button wire:click="cancelDelete" class="px-4 py-2 border rounded cursor-pointer">
+        <div class="delete-actions">
+            <button wire:click="cancelDelete" class="btn-delete-cancel">
                 Cancelar
             </button>
 
-            <button wire:click="deletePost" class="px-4 py-2 bg-red-600 text-white rounded cursor-pointer">
+            <button wire:click="deletePost" class="btn-delete-confirm">
                 Eliminar permanentemente
             </button>
         </div>
