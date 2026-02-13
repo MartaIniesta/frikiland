@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class PostComment extends Model
 {
@@ -22,9 +23,6 @@ class PostComment extends Model
         'media',
     ];
 
-    /* =============================
-        RELACIONES
-    ============================== */
 
     public function post(): BelongsTo
     {
@@ -51,9 +49,11 @@ class PostComment extends Model
         return $this->morphToMany(Hashtag::class, 'hashtagable');
     }
 
-    /* =============================
-        FAVORITES (LIKES)
-    ============================== */
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
 
     public function favorites()
     {

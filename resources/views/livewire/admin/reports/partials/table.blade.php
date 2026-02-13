@@ -32,6 +32,11 @@
                             <a href="{{ route('posts.show', $reportable->id) }}" class="admin-link">
                                 {{ \Illuminate\Support\Str::limit($reportable->content, 60) }}
                             </a>
+                        @elseif ($reportable instanceof \App\Models\PostComment)
+                            <a href="{{ route('posts.show', $reportable->post_id) }}#comment-{{ $reportable->id }}"
+                                class="admin-link">
+                                {{ \Illuminate\Support\Str::limit($reportable->content, 60) }}
+                            </a>
                         @else
                             —
                         @endif

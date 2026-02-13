@@ -55,13 +55,14 @@ class Index extends Component
     {
         $reports = Report::with([
             'reporter',
-            'reportable.user'
+            'reportable'
         ])
             ->where('status', 'pending')
             ->when($this->userId, function ($query) {
+
                 $query->whereHasMorph(
                     'reportable',
-                    [Post::class],
+                    [Post::class, \App\Models\PostComment::class],
                     function ($q) {
                         $q->where('user_id', $this->userId);
                     }

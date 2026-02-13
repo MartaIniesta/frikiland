@@ -33,4 +33,6 @@
             @endif
         </section>
     </main>
+
+    <livewire:reports.create />
 </div>

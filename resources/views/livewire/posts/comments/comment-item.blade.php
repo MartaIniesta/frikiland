@@ -15,8 +15,23 @@
             </div>
         </a>
 
-        <div class="right-content flex items-center gap-3">
+        <div class="right-content">
             <span>{{ $comment->created_at->diffForHumans() }}</span>
+
+            @if (auth()->id() !== $comment->user_id)
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="dots-vertical">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+
+                    <div x-show="open" x-transition @click.away="open = false" class="modal-post">
+                        <button wire:click="$dispatch('openReportModal', {modelId: {{ $comment->id }}, modelType: 'comment'})"
+                            @click="open = false">
+                            <i class="bx bx-flag"></i> Reportar
+                        </button>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 

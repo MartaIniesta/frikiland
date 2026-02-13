@@ -76,19 +76,30 @@ class Index extends Component
     {
         $users = User::withCount([
             'posts',
-            'comments',
+            'comments'
         ])
-            ->withCount([
-                'posts as reports_count' => function ($query) {
-                    $query->whereHas('reports');
-                }
-            ])
+            ->with(['posts.reports', 'comments.reports'])
             ->where(function ($query) {
                 $query->where('name', 'like', "%{$this->search}%")
                     ->orWhere('username', 'like', "%{$this->search}%");
             })
             ->latest()
             ->paginate(15);
+
+        $users->getCollection()->transform(function ($user) {
+
+            $postReports = $user->posts->sum(function ($post) {
+                return $post->reports()->count();
+            });
+
+            $commentReports = $user->comments->sum(function ($comment) {
+                return $comment->reports()->count();
+            });
+
+            $user->reports_count = $postReports + $commentReports;
+
+            return $user;
+        });
 
         return view('livewire.admin.users.index', compact('users'));
     }
