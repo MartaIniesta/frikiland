@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Post;
 use App\Traits\{HandlesPostMedia, HandlesHashtags};
 use App\Events\PostCreated;
+use App\Jobs\NotifyFollowersNewPostJob;
 
 class PostsForYou extends Component
 {
@@ -89,6 +90,7 @@ class PostsForYou extends Component
 
         $this->syncHashtags($post, $this->content);
 
+        NotifyFollowersNewPostJob::dispatch($post);
         event(new PostCreated($post));
 
         $this->posts->prepend($post->load('user'));
