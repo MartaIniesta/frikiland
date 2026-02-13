@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\{Report, Post, User, PostComment};
 use App\Notifications\ContentRemovedNotification;
+use Illuminate\Support\Facades\Artisan;
 
 class Index extends Component
 {
@@ -16,6 +17,7 @@ class Index extends Component
     public $userId = null;
     public $confirmingAction = null;
     public $actionType = null;
+    public $confirmingAcceptAll = false;
 
     public function mount(User $user = null)
     {
@@ -65,6 +67,26 @@ class Index extends Component
         }
 
         $this->reset(['confirmingAction', 'actionType']);
+    }
+
+    public function confirmAcceptAll()
+    {
+        $this->confirmingAcceptAll = true;
+    }
+
+    public function acceptAllReports()
+    {
+        if (!$this->userId) {
+            return;
+        }
+
+        Artisan::call('reports:accept', [
+            'userId' => $this->userId
+        ]);
+
+        $this->confirmingAcceptAll = false;
+
+        $this->resetPage();
     }
 
     public function render()

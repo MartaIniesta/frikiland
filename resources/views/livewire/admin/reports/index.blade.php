@@ -16,6 +16,14 @@
             </a>
         </x-banner-categories>
 
+        <div class="admin-actions-header">
+            @if ($userId)
+                <button wire:click="confirmAcceptAll" class="admin-accept-all-btn">
+                    Aceptar todos los reportes
+                </button>
+            @endif
+        </div>
+
         <div class="admin-table-wrapper">
             @include('livewire.admin.reports.partials.table')
         </div>
@@ -25,5 +33,6 @@
         </div>
     </div>
 
-    @include('livewire.admin.reports.partials.modal-confirmacion')
+    @include('livewire.admin.reports.partials.confirmation-modal')
+    @include('livewire.admin.reports.partials.accept-modal')
 </div>
